@@ -1,4 +1,5 @@
 ## echoLocation: app
+[![Netlify Status](https://api.netlify.com/api/v1/badges/86c69180-980a-4612-b330-e7effaf5f283/deploy-status)](https://app.netlify.com/sites/echolocation/deploys)
 
 A client-side application that manages lost/found items from users within campus.
 
