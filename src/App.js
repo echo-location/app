@@ -46,7 +46,7 @@ function ItemCard(props) {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={image}>
             {" "}
             {/* MAKE ICON A SMALL IMAGE OF THE PICTURE IF IT EXISTS, OTHERWISE FIRST LETTER OF ITEM OR USER*/}
             {username.charAt(0)}
@@ -135,7 +135,7 @@ function App() {
                     location={"De Neve"} //item.location
                     contactInfo="example@ucla.edu | 123-456-7890"
                     moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
-                    image="favicon.ico"
+                    image="favicon.ico" // if no image, then use "" and ItemCard will handle it
                   />
                 </div>
               </center>
