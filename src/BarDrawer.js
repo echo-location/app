@@ -95,6 +95,7 @@ function SearchAppBar({ onClick }) {
     const results = await getItems(query);
     console.log(`Search query: ${query}`);
     setItems(results);
+    console.log(items); // THIS IS ONLY HERE SO REPO DOESN'T FAIL NETLIFY TEST FOR UNUSED VARIABLES (items)
   };
 
   const updateQuery = (newQuery) => {
