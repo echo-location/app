@@ -131,6 +131,13 @@ function SearchAppBar({ onClick }) {
               inputProps={{ "aria-label": "search" }}
               onChange={updateQuery}
               //onChange={updateQuery} // maybe if we want instant search results
+              onKeyPress={(ev) => {
+                if (ev.key === "Enter") {
+                  console.log("ENTER KEY PRESSED");
+                  //call query function here
+                  search();
+                }
+              }}
             />
             <IconButton onClick={search}>
               <SearchIconWrapper>
