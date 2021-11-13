@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import React from "react";
 import BarDrawer from "./BarDrawer";
 
 const getUsers = async () => {
@@ -36,6 +35,7 @@ function App() {
 
   const updateQuery = (newQuery) => {
     setQuery(newQuery.target.value);
+    console.log(newQuery.target.value);
   };
 
   useEffect(() => {
@@ -63,13 +63,6 @@ function App() {
           </div>
         ))}
         <br />
-        <input
-          id="query"
-          type="text"
-          placeholder="Search"
-          onChange={updateQuery}
-        />
-        <button onClick={search}>Search for Items</button>
       </div>
     </div>
   );

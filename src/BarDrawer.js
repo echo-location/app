@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -34,6 +34,7 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
+  color: theme.palette.common.white,
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
@@ -75,7 +76,31 @@ function iconselect(index) {
   }
 }
 
+const getItems = async (query) => {
+  //waiting for backend to implement items search
+  const url = "https://echolocation-api.herokuapp.com/";
+  const response = await fetch(`${url}user`, {
+    method: "GET",
+    // body: JSON.stringify({ query }),
+  });
+  console.log(response);
+  return response.json();
+};
+
 function SearchAppBar({ onClick }) {
+  const [items, setItems] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const search = async () => {
+    const results = await getItems(query);
+    console.log(`Search query: ${query}`);
+    setItems(results);
+  };
+
+  const updateQuery = (newQuery) => {
+    setQuery(newQuery.target.value);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -100,13 +125,17 @@ function SearchAppBar({ onClick }) {
             Echo Location
           </Typography>
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={updateQuery}
+              //onChange={updateQuery} // maybe if we want instant search results
             />
+            <IconButton onClick={search}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+            </IconButton>
           </Search>
         </Toolbar>
       </AppBar>
