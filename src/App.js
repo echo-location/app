@@ -49,7 +49,7 @@ function ItemCard(props) {
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={image}>
             {" "}
             {/* MAKE ICON A SMALL IMAGE OF THE PICTURE IF IT EXISTS, OTHERWISE FIRST LETTER OF ITEM OR USER*/}
-            {username.charAt(0)}
+            {item.charAt(0)}
           </Avatar>
         }
         action={
