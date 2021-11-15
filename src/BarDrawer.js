@@ -37,8 +37,8 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   color: theme.palette.common.white,
   padding: theme.spacing(0, 2),
   height: "100%",
-  position: "absolute",
   pointerEvents: "none",
+  position: "relative",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -61,7 +61,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function iconselect(index) {
+function pageSelect(page) {
+  switch (page){
+    case "Lost Items":
+      window.location.href = "LostItemsPage"
+      break;
+    case "Map":
+      window.location.href = "Map"
+      break;
+    case "User Information":
+      window.location.href = "UserInformation"
+      break;
+    case "Help":
+      window.location.href = "Help"
+      break;
+    default:
+      return
+  }
+}
+
+function iconSelect(index) {
   switch (index) {
     case 0:
       return <CatchingPokemonIcon />;
@@ -126,6 +145,11 @@ function SearchAppBar({ onClick }) {
             Echo Location
           </Typography>
           <Search>
+            <IconButton onClick={search}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+            </IconButton>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
@@ -139,11 +163,6 @@ function SearchAppBar({ onClick }) {
                 }
               }}
             />
-            <IconButton onClick={search}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-            </IconButton>
           </Search>
         </Toolbar>
       </AppBar>
@@ -162,8 +181,8 @@ function SwipeableTemporaryDrawer({ options, onClicks }) {
       <List>
         {["Lost Items", "Map", "User Information", "Help"].map(
           (text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{iconselect(index)}</ListItemIcon>
+            <ListItem button key={text} onClick={() => pageSelect(text)}>
+              <ListItemIcon>{iconSelect(index)}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           )
