@@ -6,8 +6,7 @@ import UserInformation from "./UserInformation";
 import {
   BrowserRouter,
   Routes,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Help from "./Help";
 
