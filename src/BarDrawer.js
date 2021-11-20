@@ -70,7 +70,7 @@ function pageSelect(page) {
       window.location.href = "Map"
       break;
     case "User Information":
-      window.location.href = "UserInformation"
+      window.location.href = "Login"
       break;
     case "Help":
       window.location.href = "Help"
