@@ -62,21 +62,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function pageSelect(page) {
-  switch (page){
+  switch (page) {
     case "Lost Items":
-      window.location.href = "LostItemsPage"
+      window.location.href = "/LostItemsPage";
       break;
     case "Map":
-      window.location.href = "Map"
+      window.location.href = "/Map";
       break;
     case "User Information":
-      window.location.href = "UserInformation"
+      window.location.href = "/UserInformation";
       break;
     case "Help":
-      window.location.href = "Help"
+      window.location.href = "/Help";
       break;
     default:
-      return
+      return;
   }
 }
 
