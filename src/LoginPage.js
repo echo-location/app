@@ -11,7 +11,9 @@ function validateLogin(username, password){
   if(username === password) //temporary check
   {
       errorState = false
-      window.location.href = "UserInformation" //redirect to user page
+      var para = new URLSearchParams();
+      para.append("User", username);
+      window.location.href = "UserInformation?" + para.toString(); 
   }
   else
       errorState = true

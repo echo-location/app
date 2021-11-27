@@ -13,9 +13,13 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
+//removes an item from the database
+function remove(id){
+  console.log("remove", id)
+}
 const CardMediaImageWrapper = styled("div")(() => ({
   maxHeight: "50%",
   maxWidth: "50%",
@@ -51,8 +55,9 @@ function ItemCard(props) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton aria-label = "remove" onClick = {() => remove(item //will need to take in some set of params in future
+            )}>
+            <DeleteIcon />
           </IconButton>
         }
         title={`${username} - ${item}`}
@@ -97,8 +102,10 @@ function ItemCard(props) {
 }
 
 const getUsers = async () => {
+    var para = new URLSearchParams(window.location.search);
+    var pass = para.get("User"); 
     const url = "https://echolocation-api.herokuapp.com/";
-    const response = await fetch(`${url}user`, {
+    const response = await fetch(`${url}${pass}`, {
       method: "GET",
     });
     console.log(response);
@@ -107,7 +114,6 @@ const getUsers = async () => {
 
 function UserInformation(){
     const [users, setUsers] = useState([]);
-
   useEffect(() => {
     getUsers().then((response) => {
       setUsers(response["users"]);
@@ -118,25 +124,27 @@ function UserInformation(){
     return(
         <div className = "UserInformationPage">
             <BarDrawer />
-            <h1>Items You have Reported</h1>
+            <h1>Items You have Reported</h1>        
             {users.map((user) => (
-          <div>
-            {user.items.map((item) => (
-                <div>
-                  <br />
-                  <ItemCard
-                    username={user.username}
-                    //item={item} //item.name?
-                    item={"Airpods"}
-                    location={"De Neve"} //item.location
-                    contactInfo="example@ucla.edu | 123-456-7890"
-                    moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
-                    image="favicon.ico" // if no image, then use "" and ItemCard will handle it
-                  />
-                </div>
+              <div>
+              {user.items.map((item) => (
+                <center>
+                  <div>
+                    <br />
+                    <ItemCard
+                      username={user.username}
+                      //item={item} //item.name?
+                      item={"Airpods"}
+                      location={"De Neve"} //item.location
+                      contactInfo="example@ucla.edu | 123-456-7890"
+                      moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
+                      image="favicon.ico" // if no image, then use "" and ItemCard will handle it
+                    />
+                  </div>
+                </center>
+                ))}
+              </div>
             ))}
-          </div>
-        ))}
         </div>
     )
 }
