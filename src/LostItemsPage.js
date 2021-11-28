@@ -98,22 +98,38 @@ function ItemCard(props) {
   );
 }
 
-const getUsers = async () => {
-  const url = "https://echolocation-api.herokuapp.com/";
-  const response = await fetch(`${url}user`, {
+const getItems = async () => {
+  const url = "http://localhost:8000/item/";
+  const response = await fetch(`${url}`, {
     method: "GET",
   });
   console.log(response);
   return response.json();
 };
+// takes an id and fetches the associated user.
+  function findUser(id)
+  {
+    const url = "http://localhost:8000/user/:id";
+    fetch(`${url}`, {
+      method: "POST",
+      body: JSON.stringify({id: `${id}`})
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      else
+      {
+        throw new Error("Something went wrong");
+      }});
+  }
 
 function LostItemsPage() {
-  const [users, setUsers] = useState([]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    getUsers().then((response) => {
-      setUsers(response["users"]);
-      console.log(response["users"]);
+    getItems().then((response) => {
+      setItems(response["items"]);
+      console.log(response["items"]);
     });
   }, []);
 
@@ -122,26 +138,21 @@ function LostItemsPage() {
       <BarDrawer />
       <div className="Items">
         <h1>Lost Items</h1>
-        {users.map((user) => (
-          <div>
-            {user.items.map((item) => (
+            {items.map((item) => (
               <center>
                 <div>
                   <br />
                   <ItemCard
-                    username={user.username}
-                    //item={item} //item.name?
-                    item={"Airpods"}
-                    location={"De Neve"} //item.location
-                    contactInfo="example@ucla.edu | 123-456-7890"
-                    moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
+                    username={findUser(item._id)}
+                    item={item.name}
+                    location={item.location}
+                    contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
+                    moreInfo= {`${item.description} \r\n Found: ${item.date.substring(0,10)}`}  
                     image="favicon.ico" // if no image, then use "" and ItemCard will handle it
                   />
                 </div>
               </center>
             ))}
-          </div>
-        ))}
       </div>
     </div>
   );
