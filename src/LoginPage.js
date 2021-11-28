@@ -64,13 +64,15 @@ function Login()
     return (
     <div className="LoginPage">
     <BarDrawer />
-    <Button variant = "contained" onClick = {() =>goToCreateAccount()}>Create an Account </Button>
     <center>
     <h1>
         Please enter your login information or create an account.
     </h1>
     <FormPropsTextFields />
     <Button onClick= {() =>validateLogin(document.getElementById("Username").value, document.getElementById("Password").value)}>Login</Button>
+    </center>
+    <center>
+      <Button variant = "contained" onClick = {() =>goToCreateAccount()}>Create an Account </Button>
     </center>
     </div>
     );
