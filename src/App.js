@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import LostItemsPage from "./LostItemsPage";
 import Map from "./Map";
+import CreateAccount from "./CreateAccountPage";
+import Login from "./LoginPage";
 import UserInformation from "./UserInformation";
 import {
   BrowserRouter,
@@ -20,6 +22,8 @@ function App() {
           <Route path="LostItemsPage" element= { <LostItemsPage />} />
           <Route path="Map" element= { <Map />} />
           <Route path="UserInformation" element= { <UserInformation />} />
+          <Route path="Login" element = {<Login/>} />
+          <Route path="CreateAccount" element = {<CreateAccount/>} />
         </Routes>
       </BrowserRouter>
   );

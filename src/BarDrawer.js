@@ -70,7 +70,7 @@ function pageSelect(page) {
       window.location.href = "Map"
       break;
     case "User Information":
-      window.location.href = "UserInformation"
+      window.location.href = "Login"
       break;
     case "Help":
       window.location.href = "Help"
@@ -98,7 +98,7 @@ function iconSelect(index) {
 const getItems = async (query) => {
   //waiting for backend to implement items search
   const url = "https://echolocation-api.herokuapp.com/";
-  const response = await fetch(`${url}user`, {
+  const response = await fetch(`${url}items/search/q`, {
     method: "GET",
     // body: JSON.stringify({ query }),
   });
