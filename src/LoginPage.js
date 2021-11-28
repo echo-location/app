@@ -55,12 +55,16 @@ function FormPropsTextFields() {
   );
 }
 
+function goToCreateAccount(){
+  window.location.href = "CreateAccount"
+}
 
 function Login()
 {
     return (
     <div className="LoginPage">
     <BarDrawer />
+    <Button variant = "contained" onClick = {() =>goToCreateAccount()}>Create an Account </Button>
     <center>
     <h1>
         Please enter your login information or create an account.

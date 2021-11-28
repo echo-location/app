@@ -19,6 +19,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 //removes an item from the database
 function remove(id){
   console.log("remove", id)
+  if (window.confirm("Are you sure you want to remove this item?"))
+  {
+    const url = "https://echolocation-api.herokuapp.com/";
+    const response = fetch(`${url}/item/${id}`, {
+      method: "DELETE",
+    });
+    console.log(response);
+  } 
 }
 const CardMediaImageWrapper = styled("div")(() => ({
   maxHeight: "50%",
@@ -37,7 +45,7 @@ const ExpandMore = styled((props) => {
 }));
 
 function ItemCard(props) {
-  const { username, item, location, contactInfo, image, moreInfo } = props;
+  const { username, item, location, contactInfo, image, moreInfo, itemid } = props;
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -55,7 +63,7 @@ function ItemCard(props) {
           </Avatar>
         }
         action={
-          <IconButton aria-label = "remove" onClick = {() => remove(item //will need to take in some set of params in future
+          <IconButton aria-label = "remove" onClick = {() => remove(itemid //will need to take in some set of params in future
             )}>
             <DeleteIcon />
           </IconButton>
@@ -101,11 +109,11 @@ function ItemCard(props) {
   );
 }
 
-const getUsers = async () => {
+const getUser = async () => {
     var para = new URLSearchParams(window.location.search);
     var pass = para.get("User"); 
     const url = "https://echolocation-api.herokuapp.com/";
-    const response = await fetch(`${url}${pass}`, {
+    const response = await fetch(`${url}:${pass}`, {
       method: "GET",
     });
     console.log(response);
@@ -113,9 +121,9 @@ const getUsers = async () => {
   };
 
 function UserInformation(){
-    const [users, setUsers] = useState([]);
+    const [user, setUsers] = useState([]);
   useEffect(() => {
-    getUsers().then((response) => {
+    getUser().then((response) => {
       setUsers(response["users"]);
       console.log(response["users"]);
     });
@@ -124,28 +132,25 @@ function UserInformation(){
     return(
         <div className = "UserInformationPage">
             <BarDrawer />
-            <h1>Items You have Reported</h1>        
-            {users.map((user) => (
-              <div>
-              {user.items.map((item) => (
+            <h1>Items You have Reported</h1>
                 <center>
+                  {//will need to map items here
+}
                   <div>
                     <br />
                     <ItemCard
-                      username={user.username}
+                      username={user}
                       //item={item} //item.name?
                       item={"Airpods"}
                       location={"De Neve"} //item.location
                       contactInfo="example@ucla.edu | 123-456-7890"
                       moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
                       image="favicon.ico" // if no image, then use "" and ItemCard will handle it
+                      itemid = {1245232}
                     />
                   </div>
                 </center>
-                ))}
               </div>
-            ))}
-        </div>
     )
 }
 
