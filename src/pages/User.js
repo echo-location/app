@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import BarDrawer from "./BarDrawer";
 import { styled } from "@mui/material/styles";
+import Bar from "../components/Bar/Bar";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -14,9 +13,20 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+//removes an item from the database
+function remove(id) {
+  console.log("remove", id);
+  if (window.confirm("Are you sure you want to remove this item?")) {
+    const url = "https://echolocation-api.herokuapp.com/";
+    const response = fetch(`${url}/item/${id}`, {
+      method: "DELETE",
+    });
+    console.log(response);
+  }
+}
 const CardMediaImageWrapper = styled("div")(() => ({
   maxHeight: "50%",
   maxWidth: "50%",
@@ -34,7 +44,8 @@ const ExpandMore = styled((props) => {
 }));
 
 function ItemCard(props) {
-  const { username, item, location, contactInfo, image, moreInfo } = props;
+  const { username, item, location, contactInfo, image, moreInfo, itemid } =
+    props;
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -52,8 +63,15 @@ function ItemCard(props) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton
+            aria-label="remove"
+            onClick={() =>
+              remove(
+                itemid //will need to take in some set of params in future
+              )
+            }
+          >
+            <DeleteIcon />
           </IconButton>
         }
         title={`${username} - ${item}`}
@@ -105,63 +123,68 @@ const getItems = async () => {
   console.log(response);
   return response.json();
 };
+
 // takes an id and fetches the associated user.
 async function findUser(id) {
   const url = "http://localhost:8000/user/";
-  try {const response = await fetch(`${url}${id}`, {
-    method: "GET",
-  });
-    if (response.ok){
-        const data = await response.json();
-    return data.user[0];
-    } 
-    } catch(err){
-      console.log(err)
-    // display and say if request failed or user doesnt exist etc
+  try {
+    const response = await fetch(`${url}${id}`, {
+      method: "GET",
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data.user[0];
     }
+  } catch (err) {
+    console.log(err);
+    // display and say if request failed or user doesnt exist etc
+  }
 }
 
-function LostItemsPage() {
+function UserInformation() {
   const [items, setItems] = useState([]);
-  const [users, setUsers] = useState({});
+  const para = new URLSearchParams(window.location.search);
+  const user = para.get("User");
   useEffect(() => {
     async function fetchStuff() {
       const response = await getItems();
       const newItems = response["items"];
-      setItems(response["items"]);
-      let dict = {};
       for (let i = 0; i < newItems.length; i++) {
         const data = await findUser(newItems[i].user);
-        dict[newItems[i]._id] = data;
+        if (data.username !== user) {
+          //remove the item since it is wrong user
+          newItems.splice(i, 1);
+          i -= 1;
+        }
       }
-      setUsers(dict);
+      setItems(newItems);
     }
     fetchStuff();
-  }, []);
+  }, [user]);
 
   return (
-    <div className="LostItemsPage">
-      <BarDrawer />
-      <div className="Items">
-        <h1>Lost Items</h1>
-            {items.map((item) => (
-              <center>
-                <div>
-                  <br />
-                  <ItemCard
-                    username = {users[item._id] === undefined ? ' ' : users[item._id].username}
-                    item={item.name}
-                    location={item.location}
-                    contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
-                    moreInfo= {`${item.description} \r\n Found: ${item.date.substring(0,10)}`}  
-                    image="favicon.ico" // if no image, then use "" and ItemCard will handle it
-                  />
-                </div>
-              </center>
-            ))}
-      </div>
+    <div className="UserInformationPage">
+      <Bar />
+      <h1>Items You have Reported</h1>
+      {items.map((item) => (
+        <center>
+          <div>
+            <br />
+            <ItemCard
+              username={user}
+              //item={item} //item.name?
+              item={"Airpods"}
+              location={"De Neve"} //item.location
+              contactInfo="example@ucla.edu | 123-456-7890"
+              moreInfo="I found this item on the back right side of the building 100 on Monday 11/13 in my class between 10-11am."
+              image="favicon.ico" // if no image, then use "" and ItemCard will handle it
+              itemid={1245232}
+            />
+          </div>
+        </center>
+      ))}
     </div>
   );
 }
 
-export default LostItemsPage;
+export default UserInformation;
