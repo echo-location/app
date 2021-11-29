@@ -136,20 +136,40 @@ async function findUser(id) {
 
 function LostItemsPage() {
   const [items, setItems] = useState([]);
-
+  //const [users, setUsers] = useState({})
   useEffect(() => {
     getItems().then((response) => {
       setItems(response["items"]);
       console.log(response["items"]);
     });
   }, []);
-  
-  var users = {}; //dictionary of users that map items to users
-  for(let i=0;i<items.length;i++)
-  {
-    findUser(items[i].user).then(data => {users[items[i]._id] = data})
-  }
+  const [users, setUsers] = useState({});
+
+  useEffect(() => {
+    getItems().then((response) => {
+      setItems(response["items"]);
+      console.log(response["items"]);
+      for (let i = 0; i < items.length; i++) {
+
+        findUser(items[i].user).then(data => {
+          let usersCopy = users;
+          usersCopy[items[i]._id] = data.username;
+          setUsers(usersCopy);
+        });
+      }
+    });
+  }, []);
   console.log(users)
+  /*
+  useEffect(() => {
+    var dict = {}
+    for(let i=0;i<items.length;i++)
+    {
+      findUser(items[i].user).then(data => {dict[items[i]._id] = data})
+    }
+    setUsers(dict);
+    console.log(dict, users);
+  });*/
 
   return (
     <div className="LostItemsPage">
@@ -160,9 +180,8 @@ function LostItemsPage() {
               <center>
                 <div>
                   <br />
-                  {console.log(item._id, users[(item._id)].username)}
                   <ItemCard
-                    username={users[(item._id)].username}
+                    username = {users[item._id] ==undefined ? ' ' : users[item._id].username}
                     item={item.name}
                     location={item.location}
                     contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
