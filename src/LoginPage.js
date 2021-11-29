@@ -1,29 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import BarDrawer from "./BarDrawer";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-var errorState = false
-function validateLogin(username, password){
-  //stuff from api goes here
-  console.log(username, password) //for debugging
-  if(username === password) //temporary check
-  {
-      errorState = false
-      let para = new URLSearchParams();
-      para.append("User", username);
-      window.location.href = "UserInformation?" + para.toString(); 
-  }
-  else
-      errorState = true
-}
 
-function FormPropsTextFields() {
-  var help = ""
+function FormPropsTextFields({errorState, setErrorState}) {
+  let help = ""
   if(errorState)
   {
-    help = "Invalid password or username"
+    help = "Invalid password or username";
   }
   return (
     <Box
@@ -41,6 +27,7 @@ function FormPropsTextFields() {
           label="Username"
           error = {errorState}
           autoComplete = "current-username"
+          helperText = {help}
         />
         <TextField
           required id="Password"
@@ -48,7 +35,6 @@ function FormPropsTextFields() {
           type="password"
           error = {errorState}
           autoComplete="current-password"
-          helperText = {help}
         />
       </div>
     </Box>
@@ -61,6 +47,20 @@ function goToCreateAccount(){
 
 function Login()
 {
+  const [errorState, setErrorState] = useState(false);
+  function validateLogin(username, password){
+    //stuff from api goes here
+    console.log(username, password) //for debugging
+    if(username === password) //temporary check
+    {
+        setErrorState(false)
+        let para = new URLSearchParams();
+        para.append("User", username);
+        window.location.href = "UserInformation?" + para.toString(); 
+    }
+    else
+        setErrorState(true)
+  }
     return (
     <div className="LoginPage">
     <BarDrawer />
@@ -68,7 +68,7 @@ function Login()
     <h1>
         Please enter your login information or create an account.
     </h1>
-    <FormPropsTextFields />
+    <FormPropsTextFields  errorState = {errorState} setErrorState = {() => setErrorState} />
     <Button onClick= {() =>validateLogin(document.getElementById("Username").value, document.getElementById("Password").value)}>Login</Button>
     </center>
     <center>

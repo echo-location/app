@@ -102,12 +102,11 @@ const getItems = async () => {
   const response = await fetch(`${url}`, {
     method: "GET",
   });
-  //console.log(response);
+  console.log(response);
   return response.json();
 };
 // takes an id and fetches the associated user.
 async function findUser(id) {
-  //console.log(id)
   const url = "http://localhost:8000/user/";
   try {const response = await fetch(`${url}${id}`, {
     method: "GET",
@@ -130,7 +129,7 @@ function LostItemsPage() {
       const response = await getItems();
       const newItems = response["items"];
       setItems(response["items"]);
-      var dict = {};
+      let dict = {};
       for (let i = 0; i < newItems.length; i++) {
         const data = await findUser(newItems[i].user);
         dict[newItems[i]._id] = data;
