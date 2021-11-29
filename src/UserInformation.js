@@ -144,7 +144,7 @@ function UserInformation(){
       const newItems = response["items"];
       for (let i = 0; i < newItems.length; i++) {
         const data = await findUser(newItems[i].user);
-        if (data.username != user)
+        if (data.username !== user)
         {
           //remove the item since it is wrong user
           newItems.splice(i,1)
@@ -154,7 +154,7 @@ function UserInformation(){
       setItems(newItems);
     }
     fetchStuff();
-  }, []);
+  }, [user]);
 
     return(
         <div className = "UserInformationPage">

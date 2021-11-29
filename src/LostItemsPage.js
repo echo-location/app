@@ -149,7 +149,7 @@ function LostItemsPage() {
                 <div>
                   <br />
                   <ItemCard
-                    username = {users[item._id] == undefined ? ' ' : users[item._id].username}
+                    username = {users[item._id] === undefined ? ' ' : users[item._id].username}
                     item={item.name}
                     location={item.location}
                     contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
