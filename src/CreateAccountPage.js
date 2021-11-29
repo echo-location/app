@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 
 function FormPropsTextFields({error}) {
   let errorState = false;
-  if(error.length != 0)
+  if(error.length !== 0)
   {
     errorState = true;
   }
@@ -42,6 +42,19 @@ function FormPropsTextFields({error}) {
           error = {errorState}
         />
       </div>
+      <div>
+      <TextField
+          id = "Email"
+          label="Email"
+          error = {errorState}
+        />
+      <TextField
+          id = "Phone Number"
+          label="Phone Number"
+          error = {errorState}
+          helperText = "Please put your phone number in the form 'XXX-XX-XXXX'."
+        />
+      </div>
     </Box>
   );
 }
@@ -50,38 +63,45 @@ function FormPropsTextFields({error}) {
 function CreateAccount()
 {
   const [error,setError] = useState("");
-  async function createNewAccount(username, password, confirmPassword){
+  async function createNewAccount(username, password, confirmPassword, email, phoneNumber){
     //stuff from api goes here
-    console.log(username, password, confirmPassword) //for debugging
+    console.log(username, password, confirmPassword, email, phoneNumber) //for debugging
     if(confirmPassword === password) //make sure that the password is confirmed
     {
-      const url = "http://localhost:8000/user/";
-      try {
-        const response = await fetch(`${url}`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({username: username.toString()})
-      });
-        console.log(response)
-        if (response.ok){
-          return
+      if(email !== "" || phoneNumber !== "")
+      {
+        try {
+          const response = await fetch("http://localhost:8000/user/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({username: username.toString()}) //will need to pass in email, phonenumber, password
+        });
+          console.log(response)
+          if (response.ok){
+            setError("")
+            return
+        }
+          else
+          {
+            const error = await response.json();
+            console.log(error)
+            setError(error.message)
+          } 
+        } catch(err){
+          console.log(err);
+          setError(err);
+        }
       }
-        else
-        {
-          const error = await response.json();
-          console.log(error)
-          setError(error.message)
-        } 
-      } catch(err){
-        console.log(err);
-        setError(err);
+      else{
+        setError("Please enter your email or phone number");
+        return
       }
     }
     else
     {
-      setError("Please make sure your passwords match")
+      setError("Please make sure your passwords match");
       return
     }
   }
@@ -94,7 +114,9 @@ function CreateAccount()
     </h1>
     <FormPropsTextFields error = {error}/>
     <div>{error}</div>
-    <Button onClick= {() =>createNewAccount(document.getElementById("Username").value, document.getElementById("Password").value, document.getElementById("Confirm-Password").value)}>Create Account</Button>
+    <Button onClick= {() =>createNewAccount(document.getElementById("Username").value, document.getElementById("Password").value,
+    document.getElementById("Confirm-Password").value, document.getElementById("Email").value, document.getElementById("Phone Number").value)}>
+      Create Account</Button>
     </center>
     </div>
     );
