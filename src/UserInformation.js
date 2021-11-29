@@ -112,8 +112,8 @@ function ItemCard(props) {
 const getUser = async () => {
     var para = new URLSearchParams(window.location.search);
     var pass = para.get("User"); 
-    const url = "https://echolocation-api.herokuapp.com/";
-    const response = await fetch(`${url}:${pass}`, {
+    const url = "localhost:8000/";
+    const response = await fetch(`${url}${pass}`, {
       method: "GET",
     });
     console.log(response);

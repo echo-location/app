@@ -107,21 +107,32 @@ const getItems = async () => {
   return response.json();
 };
 // takes an id and fetches the associated user.
-  function findUser(id)
-  {
-    const url = "http://localhost:8000/user/:id";
-    fetch(`${url}`, {
-      method: "POST",
-      body: JSON.stringify({id: `${id}`})
-    }).then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      else
-      {
-        throw new Error("Something went wrong");
-      }});
-  }
+async function findUser(id) {
+  const url = "http://localhost:8000/user/";
+  try {const response = await fetch(`${url}${id}`, {
+    method: "GET",
+  });
+    if (response.ok){
+        const data = await response.json();
+    return data.user[0];
+    } 
+    } catch(err){
+    // display and say if request failed or user doesnt exist etc
+    } 
+  /*
+  fetch(`${url}${id}`, {
+    method: "GET",
+  }).then(response => {
+    if (response.ok) {
+      response.json().then(data => {
+        return data["user"][0]
+      })
+    }
+    else
+    {
+      throw new Error("Something went wrong");
+    }});*/
+}
 
 function LostItemsPage() {
   const [items, setItems] = useState([]);
@@ -132,6 +143,13 @@ function LostItemsPage() {
       console.log(response["items"]);
     });
   }, []);
+  
+  var users = {}; //dictionary of users that map items to users
+  for(let i=0;i<items.length;i++)
+  {
+    findUser(items[i].user).then(data => {users[items[i]._id] = data})
+  }
+  console.log(users)
 
   return (
     <div className="LostItemsPage">
@@ -142,8 +160,9 @@ function LostItemsPage() {
               <center>
                 <div>
                   <br />
+                  {console.log(item._id, users[(item._id)].username)}
                   <ItemCard
-                    username={findUser(item._id)}
+                    username={users[(item._id)].username}
                     item={item.name}
                     location={item.location}
                     contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
