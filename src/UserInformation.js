@@ -109,33 +109,59 @@ function ItemCard(props) {
   );
 }
 
-const getUser = async () => {
-    var para = new URLSearchParams(window.location.search);
-    var pass = para.get("User"); 
-    const url = "https://echolocation-api.herokuapp.com/";
-    const response = await fetch(`${url}:${pass}`, {
-      method: "GET",
-    });
-    console.log(response);
-    return response.json();
-  };
+const getItems = async () => {
+  const url = "http://localhost:8000/item/";
+  const response = await fetch(`${url}`, {
+    method: "GET",
+  });
+  console.log(response);
+  return response.json();
+};
+
+// takes an id and fetches the associated user.
+async function findUser(id) {
+  const url = "http://localhost:8000/user/";
+  try {const response = await fetch(`${url}${id}`, {
+    method: "GET",
+  });
+    if (response.ok){
+        const data = await response.json();
+    return data.user[0];
+    } 
+    } catch(err){
+      console.log(err)
+    // display and say if request failed or user doesnt exist etc
+    }
+}
 
 function UserInformation(){
-    const [user, setUsers] = useState([]);
+  const [items, setItems] = useState([]);
+  const para = new URLSearchParams(window.location.search)
+  const user = para.get("User")
   useEffect(() => {
-    getUser().then((response) => {
-      setUsers(response["users"]);
-      console.log(response["users"]);
-    });
-  }, []);
+    async function fetchStuff() {
+      const response = await getItems();
+      const newItems = response["items"];
+      for (let i = 0; i < newItems.length; i++) {
+        const data = await findUser(newItems[i].user);
+        if (data.username !== user)
+        {
+          //remove the item since it is wrong user
+          newItems.splice(i,1)
+          i -= 1
+        }
+      }
+      setItems(newItems);
+    }
+    fetchStuff();
+  }, [user]);
 
     return(
         <div className = "UserInformationPage">
             <BarDrawer />
             <h1>Items You have Reported</h1>
+              {items.map((item) => (
                 <center>
-                  {//will need to map items here
-}
                   <div>
                     <br />
                     <ItemCard
@@ -150,6 +176,7 @@ function UserInformation(){
                     />
                   </div>
                 </center>
+              ))}
               </div>
     )
 }

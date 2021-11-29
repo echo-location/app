@@ -97,10 +97,10 @@ function iconSelect(index) {
 
 const getItems = async (query) => {
   //waiting for backend to implement items search
-  const url = "https://echolocation-api.herokuapp.com/";
-  const response = await fetch(`${url}items/search/q`, {
+  const url = "localhost:8000/";
+  const response = await fetch(`${url}item/search`, {
     method: "GET",
-    // body: JSON.stringify({ query }),
+    body: JSON.stringify({ query }),
   });
   console.log(response);
   return response.json();

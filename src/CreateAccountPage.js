@@ -14,8 +14,8 @@ function createNewAccount(username, password, confirmPassword){
   if(confirmPassword === password) //make sure that the password is confirmed
   {
       errorPassword = false
-      const url = "https://echolocation-api.herokuapp.com/";
-      const response = fetch(`${url}users/${username}`, {
+      const url = "localhost:8000/user/";
+      const response = fetch(`${url}${username}`, {
           method: "POST",
       });
       console.log(response)
