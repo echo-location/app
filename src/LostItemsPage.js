@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import BarDrawer from "./BarDrawer";
-
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -103,11 +102,12 @@ const getItems = async () => {
   const response = await fetch(`${url}`, {
     method: "GET",
   });
-  console.log(response);
+  //console.log(response);
   return response.json();
 };
 // takes an id and fetches the associated user.
 async function findUser(id) {
+  //console.log(id)
   const url = "http://localhost:8000/user/";
   try {const response = await fetch(`${url}${id}`, {
     method: "GET",
@@ -117,59 +117,28 @@ async function findUser(id) {
     return data.user[0];
     } 
     } catch(err){
+      console.log(err)
     // display and say if request failed or user doesnt exist etc
-    } 
-  /*
-  fetch(`${url}${id}`, {
-    method: "GET",
-  }).then(response => {
-    if (response.ok) {
-      response.json().then(data => {
-        return data["user"][0]
-      })
     }
-    else
-    {
-      throw new Error("Something went wrong");
-    }});*/
 }
 
 function LostItemsPage() {
   const [items, setItems] = useState([]);
-  //const [users, setUsers] = useState({})
-  useEffect(() => {
-    getItems().then((response) => {
-      setItems(response["items"]);
-      console.log(response["items"]);
-    });
-  }, []);
   const [users, setUsers] = useState({});
-
   useEffect(() => {
-    getItems().then((response) => {
+    async function fetchStuff() {
+      const response = await getItems();
+      const newItems = response["items"];
       setItems(response["items"]);
-      console.log(response["items"]);
-      for (let i = 0; i < items.length; i++) {
-
-        findUser(items[i].user).then(data => {
-          let usersCopy = users;
-          usersCopy[items[i]._id] = data.username;
-          setUsers(usersCopy);
-        });
+      var dict = {};
+      for (let i = 0; i < newItems.length; i++) {
+        const data = await findUser(newItems[i].user);
+        dict[newItems[i]._id] = data;
       }
-    });
-  }, []);
-  console.log(users)
-  /*
-  useEffect(() => {
-    var dict = {}
-    for(let i=0;i<items.length;i++)
-    {
-      findUser(items[i].user).then(data => {dict[items[i]._id] = data})
+      setUsers(dict);
     }
-    setUsers(dict);
-    console.log(dict, users);
-  });*/
+    fetchStuff();
+  }, []);
 
   return (
     <div className="LostItemsPage">
@@ -181,7 +150,7 @@ function LostItemsPage() {
                 <div>
                   <br />
                   <ItemCard
-                    username = {users[item._id] ==undefined ? ' ' : users[item._id].username}
+                    username = {users[item._id] == undefined ? ' ' : users[item._id].username}
                     item={item.name}
                     location={item.location}
                     contactInfo="example@ucla.edu | 123-456-7890" //user.contactinfo? needs backend to handle
