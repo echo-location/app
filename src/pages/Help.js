@@ -4,7 +4,7 @@ import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Bar from "../components/Bar/Bar";
-import {Outlet, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 function Help()
 {
     return (
