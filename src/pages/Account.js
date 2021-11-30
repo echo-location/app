@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BarDrawer from "./BarDrawer";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -102,7 +101,6 @@ function CreateAccount() {
   }
   return (
     <div className="LoginPage">
-      <BarDrawer />
       <center>
         <h1>
           Please enter your information the requisite fields to create your

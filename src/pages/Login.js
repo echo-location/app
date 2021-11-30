@@ -40,7 +40,7 @@ function FormPropsTextFields({ errorState, setErrorState }) {
 }
 
 function goToCreateAccount() {
-  window.location.href = "CreateAccount";
+  window.location.href = "Account";
 }
 
 function Login() {
