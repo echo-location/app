@@ -1,74 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  Avatar,
-  IconButton,
-} from "@mui/material";
-
-import { styled } from "@mui/material/styles";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getItems } from "../utils/utils";
-import SearchBar from "./SearchBar/SearchBar";
-
-const ItemCard = ({
-  username,
-  item,
-  location,
-  contactInfo,
-  image,
-  description,
-  dateFound,
-  userId,
-  itemId,
-}) => {
-  const [expanded, setExpanded] = useState(false);
-  const [favorite, setFavorite] = useState("primary");
-  function addToFavorites() {
-    if (favorite === "primary") {
-      setFavorite("secondary");
-    } else {
-      setFavorite("primary");
-    }
-    //fetch(`localhost:8000/item/${userId}${itemId}`, {method:'POST'}).then(response => {console.log(response)}) TODO: fetch in api
-    console.log(userId, itemId);
-  }
-  return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        avatar={<Avatar src={image}>{item.charAt(0)}</Avatar>}
-        title={`${username} - ${item}`}
-        subheader={`Found at ${location} | \n Contact: ${contactInfo}`}
-      />
-      <CardActions disableSpacing>
-        <IconButton color={favorite} onClick={() => addToFavorites()}>
-          <FavoriteIcon />
-        </IconButton>
-
-        <ExpandMore expand={expanded} onClick={() => setExpanded(!expanded)}>
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <CardMediaImageWrapper>
-            <CardMedia component="img" image={image} alt={item} />
-          </CardMediaImageWrapper>
-          <p>Description: </p>
-          <p>{description}</p>
-          <p>{dateFound}</p>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
-};
+import SearchBar from "../components/SearchBar/SearchBar";
+import ItemCard from "../components/ItemCard/ItemCard";
 
 const LostItems = () => {
   const [items, setItems] = useState([]);
@@ -139,22 +73,5 @@ const LostItems = () => {
     </div>
   );
 };
-
-// styling
-const CardMediaImageWrapper = styled("div")(() => ({
-  maxHeight: "50%",
-  maxWidth: "50%",
-}));
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 export default LostItems;
