@@ -113,7 +113,7 @@ function UserInformation() {
   const remove = (id) => {
     console.log("remove", id);
     if (window.confirm("Are you sure you want to remove this item?")) {
-      const url = "http://localhost:8000";
+      // const url = "http://localhost:8000";
       // const response = fetch(`${url}/item/${id}`, {
       //   method: "DELETE",
       // }).then((response) => {
