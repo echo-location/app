@@ -10,7 +10,7 @@ function Help() {
       <h1>Help Page</h1>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          FAQ #1 - Location of Lost Item
+          FAQ #1 - When to Report
         </AccordionSummary>
 
         <AccordionDetails>
@@ -20,19 +20,21 @@ function Help() {
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          FAQ #2 - Theft Protection
+          FAQ #2 - How to Verify Ownership
         </AccordionSummary>
 
         <AccordionDetails>
-          Verify ownership of lost items before returning them.
+          Please verify ownership of lost items before returning them.
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          FAQ #3 -
+          FAQ #3 - 
         </AccordionSummary>
 
-        <AccordionDetails>Lorem Ipsum</AccordionDetails>
+        <AccordionDetails>
+          Lorem Ipsum
+        </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -40,7 +42,7 @@ function Help() {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Link to="/createAccount">Click Here.</Link>
+          <Link to="/Account">Click Here.</Link>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -48,14 +50,18 @@ function Help() {
           How to Report an Item
         </AccordionSummary>
 
-        <AccordionDetails>Do the Following.</AccordionDetails>
+        <AccordionDetails>
+          Do the Following.
+        </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           How to Report an Item
         </AccordionSummary>
 
-        <AccordionDetails>Do the Following.</AccordionDetails>
+        <AccordionDetails>
+          Do the Following.
+        </AccordionDetails>
       </Accordion>
     </div>
   );
