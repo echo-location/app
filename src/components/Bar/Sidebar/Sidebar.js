@@ -10,11 +10,17 @@ import {
 import { pageSelect, iconSelect } from "../../../utils/utils";
 
 const Sidebar = ({ options, setOptions }) => {
-  const pages = ["Lost Items", "Report An Item", "Map", "User Information", "Help"];
+  const pages = [
+    "Lost Items",
+    "Report An Item",
+    "Map",
+    "User Information",
+    "Help",
+  ];
 
   const list = () => (
     <Box
-      sx={{ width: 250, padding: "2rem 1rem" }}
+      sx={{ width: 200, padding: "2rem 1rem" }}
       onClick={() => setOptions(false)}
       onKeyDown={() => setOptions(false)}
     >
