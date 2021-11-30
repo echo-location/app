@@ -53,7 +53,7 @@ function Login() {
       setErrorState(false);
       let para = new URLSearchParams();
       para.append("User", username);
-      window.location.href = "UserInformation?" + para.toString();
+      window.location.href = "User?" + para.toString();
     } else setErrorState(true);
   }
   return (
