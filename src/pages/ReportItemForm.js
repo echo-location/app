@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SendIcon from "@mui/icons-material/Send";
+import { Input } from "@mui/material";
 
 const AddItemForm = () => {
   const [item, setItem] = React.useState("");
@@ -31,14 +32,12 @@ const AddItemForm = () => {
         location: location,
         description: moreInfo,
       };
-      console.log(item);
-      console.log(location);
       const formData = new FormData();
       formData.append("file", file[0]);
       formData.append("json", JSON.stringify(payload));
-      console.log(formData.getAll("json"));
+      console.log(formData.getAll("json")); //for testing purposes to see if request was successful
       await fetch(
-        `http://localhost:8000/item/create?uid=61a58f38eb4d44a6585ab895`,
+        `http://localhost:8000/item/create?uid=61a58f38eb4d44a6585ab895`, //need to get UID of user
         {
           method: "POST",
           body: formData,
@@ -71,14 +70,15 @@ const AddItemForm = () => {
       >
         <TextField
           required
-          id="outlined-required"
-          label="Item"
+          id="itemName"
+          label="Item Name"
           placeholder="Ex: AirPods"
           onChange={updateItem}
+          autoFocus
         />
         <TextField
           required
-          id=""
+          id="location"
           label="Location"
           type="Item"
           placeholder="Ex: Powell Library"
@@ -95,13 +95,18 @@ const AddItemForm = () => {
       </Box>
       <form onSubmit={(e) => submitFile(e)}>
         <AddPhotoAlternateIcon />
-        <label>Upload file &nbsp;</label>
-        <input
-          type="file"
-          onChange={(e) => {
-            setFile(e.target.files);
-          }}
-        />
+        <label htmlFor="contained-button-file">
+          <Input
+            accept="image/*"
+            id="contained-button-file"
+            multiple
+            type="file"
+            disableUnderline
+            onChange={(e) => {
+              setFile(e.target.files);
+            }}
+          />
+        </label>
         <IconButton
           type="submit"
           edge="start"
