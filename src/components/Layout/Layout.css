@@ -1,3 +1,48 @@
 .Layout {
   padding: 2rem 3rem;
 }
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  height: 100%;
+  max-width: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+  transition: "0.2s ease";
+}
+
+.resize {
+  max-width: 75%;
+  max-height: 75%;
+}
+.modal-content {
+  height: auto;
+  margin: auto;
+  width: 100%;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  color: white;
+  font-size: 1.5rem;
+}
+.close {
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 1rem 2rem;
+}
+
+.close:hover,
+.close:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}

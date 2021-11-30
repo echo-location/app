@@ -14,13 +14,18 @@ const Sidebar = ({ options, setOptions }) => {
 
   const list = () => (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: 200, padding: "2rem 1rem" }}
       onClick={() => setOptions(false)}
       onKeyDown={() => setOptions(false)}
     >
       <List>
         {pages.map((text, index) => (
-          <ListItem button key={text} onClick={() => pageSelect(text)}>
+          <ListItem
+            sx={{ padding: "2rem 0 2rem 3rem" }}
+            button
+            key={text}
+            onClick={() => pageSelect(text)}
+          >
             <ListItemIcon>{iconSelect(index)}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
