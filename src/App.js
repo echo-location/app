@@ -8,6 +8,7 @@ import User from "./pages/User";
 import Help from "./pages/Help";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/Layout/Layout";
+import ReportItem from "./pages/ReportItemPage"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
