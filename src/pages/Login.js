@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Bar from "../components/Bar/Bar";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -41,7 +40,7 @@ function FormPropsTextFields({ errorState, setErrorState }) {
 }
 
 function goToCreateAccount() {
-  window.location.href = "CreateAccount";
+  window.location.href = "Account";
 }
 
 function Login() {
@@ -59,7 +58,6 @@ function Login() {
   }
   return (
     <div className="LoginPage">
-      <Bar />
       <center>
         <h1>Please enter your login information or create an account.</h1>
         <FormPropsTextFields

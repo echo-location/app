@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Bar from "../components/Bar/Bar";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -164,7 +163,6 @@ function UserInformation() {
 
   return (
     <div className="UserInformationPage">
-      <Bar />
       <h1>Items You have Reported</h1>
       {items.map((item) => (
         <center>
