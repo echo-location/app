@@ -14,7 +14,7 @@ const Sidebar = ({ options, setOptions }) => {
 
   const list = () => (
     <Box
-      sx={{ width: 250, padding: "2rem 1rem" }}
+      sx={{ width: "20rem", padding: "2rem 1rem" }}
       onClick={() => setOptions(false)}
       onKeyDown={() => setOptions(false)}
     >

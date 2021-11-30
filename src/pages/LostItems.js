@@ -36,10 +36,6 @@ const LostItems = () => {
     fetchItems();
   }, []);
 
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
-
   return (
     <div>
       <div className="Items">
