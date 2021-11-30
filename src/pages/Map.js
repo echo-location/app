@@ -10,10 +10,10 @@ const Map = () => {
 
   return (
     <div style={{ background: "red" }}>
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
+      {/* eslint-disable-next-line */}
+      <Map style= "mapbox://styles/mapbox/streets-v9"
         containerStyle={{
-          height: "30rem",
+          height: "37rem",
           width: "100%",
         }}
       >

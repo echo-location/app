@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-function FormPropsTextFields({ errorState, setErrorState }) {
+function FormPropsTextFields({ errorState}) {
   let help = "";
   if (errorState) {
     help = "Invalid password or username";
@@ -51,9 +51,13 @@ function Login() {
     if (username === password) {
       //temporary check
       setErrorState(false);
-      let para = new URLSearchParams();
-      para.append("User", username);
-      window.location.href = "User?" + para.toString();
+      let page = new URLSearchParams(window.location.search).get("Page");
+      fetch("http://localhost:8000/user/", {method:'GET'}).then((response) => response.json()).then((data) =>{
+        let users = data["users"]
+        let selectedUser = users.filter(user => {return user.username === username})
+        console.log(selectedUser)
+        window.location.href = page + "?User=" + username +"&UserID="+ selectedUser[0]._id
+      });
     } else setErrorState(true);
   }
   return (
