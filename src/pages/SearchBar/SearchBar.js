@@ -9,15 +9,16 @@ import { getItems } from "../../utils/utils";
 const SearchBar = ({ setItems }) => {
   const [query, setQuery] = useState("");
   const search = async () => {
-    if (query === "") return;
-    const results = await getItems(query);
+    let url = query;
+    if (query === "") url = "";
+    const results = await getItems(url);
     setItems(results.items);
   };
 
   return (
     <Search>
       <IconButton color="secondary" onClick={search}>
-        <SearchIcon style={{ width: "20px", height: "20px", color: "blue" }} />
+        <SearchIcon style={{ width: "24px", height: "24px", color: "gray" }} />
       </IconButton>
       <StyledInputBase
         placeholder="Search…"
