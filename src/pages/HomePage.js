@@ -10,11 +10,14 @@ function HomePage()
         </h1>
         <center>
         <h1>
-            Echo-Location
+            Echo Location
         </h1>
         <Button variant="contained" onClick={() => {window.location.href = "LostItems"}}>
         Enter
         </Button>
+        <h3>
+            A simple way to find your items
+        </h3>
         </center>
         </div>
     );
