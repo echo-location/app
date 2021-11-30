@@ -52,7 +52,7 @@ function FormPropsTextFields({error}) {
           id = "Phone Number"
           label="Phone Number"
           error = {errorState}
-          helperText = "Please put your phone number in the form 'XXX-XX-XXXX'."
+          helperText = "Please put your phone number in the form 'XXX-XXX-XXXX'."
         />
       </div>
     </Box>

@@ -27,9 +27,21 @@ const ItemCard = ({
   image,
   description,
   dateFound,
+  userId,
+  itemId,
 }) => {
   const [expanded, setExpanded] = useState(false);
-
+  const [favorite, setFavorite] = useState("primary");
+  function addToFavorites(){
+    if (favorite === "primary"){
+      setFavorite("secondary")
+    }
+    else{
+      setFavorite("primary")
+    }
+    //fetch(`localhost:8000/item/${userId}${itemId}`, {method:'POST'}).then(response => {console.log(response)}) TODO: fetch in api
+    console.log(userId, itemId)
+  }
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -38,8 +50,8 @@ const ItemCard = ({
         subheader={`Found at ${location} | \n Contact: ${contactInfo}`}
       />
       <CardActions disableSpacing>
-        <IconButton>
-          <FavoriteIcon />
+        <IconButton color = {favorite} onClick = {() => addToFavorites()}>
+          <FavoriteIcon/>
         </IconButton>
 
         <ExpandMore expand={expanded} onClick={() => setExpanded(!expanded)}>
@@ -51,7 +63,7 @@ const ItemCard = ({
           <CardMediaImageWrapper>
             <CardMedia component="img" image={image} alt={item} />
           </CardMediaImageWrapper>
-          <p>More Info: </p>
+          <p>Description: </p>
           <p>{description}</p>
           <p>{dateFound}</p>
         </CardContent>
@@ -105,7 +117,7 @@ const LostItems = () => {
         <center>
           <SearchBar setItems={setItems} />
         </center>
-        {items.map(({ _id, name, location, description, date }) => (
+        {items.map(({ _id, name, location, description, date, photo }) => (
           <center>
             <div>
               <br />
@@ -113,10 +125,12 @@ const LostItems = () => {
                 username={users[_id] === undefined ? " " : users[_id].username}
                 item={name}
                 location={location}
-                contactInfo="example@ucla.edu | 123-456-7890" // TODO
+                contactInfo= "123-456-7890 | example@ucla.edu" // TODO
                 description={description}
-                dateFound={`Found: ${date.substring(0, 10)}`}
-                image="" // if no image, then use "" and ItemCard will handle it
+                dateFound={`Found: ${new Date(date).toLocaleDateString([],{month: "long", day: "numeric", year: "numeric"})}`}
+                image="" //TODO if no image, then use "" and ItemCard will handle it
+                userId = {users[_id] === undefined ? "" : users[_id].username}
+                itemId = {_id}
               />
             </div>
           </center>
