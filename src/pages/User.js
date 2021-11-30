@@ -114,12 +114,12 @@ function UserInformation() {
     console.log("remove", id);
     if (window.confirm("Are you sure you want to remove this item?")) {
       const url = "http://localhost:8000";
-      const response = fetch(`${url}/item/${id}`, {
-        method: "DELETE",
-      }).then((response) => {
-        console.log(response);
-        console.log("Hooray!");
-      });
+      // const response = fetch(`${url}/item/${id}`, {
+      //   method: "DELETE",
+      // }).then((response) => {
+      //   console.log(response);
+      //   console.log("Hooray!");
+      // });
     }
   };
 
