@@ -1,31 +1,26 @@
 import React from "react";
 import "./App.css";
-import LostItemsPage from "./LostItemsPage";
-import Map from "./Map";
-import CreateAccount from "./CreateAccountPage";
-import Login from "./LoginPage";
-import UserInformation from "./UserInformation";
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-import Help from "./Help";
+import LostItems from "./pages/LostItems";
+import Map from "./pages/Map";
+import Account from "./pages/Account";
+import Login from "./pages/Login";
+import User from "./pages/User";
+import Help from "./pages/Help";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  //Routing, default is Lost Page for now
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="" element= { <LostItemsPage />} />
-          <Route path="/Help" element= {<Help />} />
-          <Route path="LostItemsPage" element= { <LostItemsPage />} />
-          <Route path="Map" element= { <Map />} />
-          <Route path="UserInformation" element= { <UserInformation />} />
-          <Route path="Login" element = {<Login/>} />
-          <Route path="CreateAccount" element = {<CreateAccount/>} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<LostItems />} />
+        <Route path="Help" element={<Help />} />
+        <Route path="LostItems" element={<LostItems />} />
+        <Route path="Map" element={<Map />} />
+        <Route path="User" element={<User />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="Account" element={<Account />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
