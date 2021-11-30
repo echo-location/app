@@ -16,6 +16,7 @@ import React, { useState, useEffect } from "react";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
+import Button from '@mui/material/Button';
 
 //removes an item from the database
 // const CardMediaImageWrapper = styled("div")(() => ({
@@ -109,17 +110,18 @@ import ItemCard from "../components/ItemCard/ItemCard";
 function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
+  const [throwaway, setThrowaway] = useState(false);
 
   const remove = (id) => {
     console.log("remove", id);
     if (window.confirm("Are you sure you want to remove this item?")) {
-      // const url = "http://localhost:8000";
-      // const response = fetch(`${url}/item/${id}`, {
-      //   method: "DELETE",
-      // }).then((response) => {
-      //   console.log(response);
-      //   console.log("Hooray!");
-      // });
+      const url = "http://localhost:8000";
+       fetch(`${url}/item/${id}`, {
+        method: "DELETE",
+       }).then((response) => {
+         console.log(response);
+         setThrowaway(!throwaway)
+       });
     }
   };
 
@@ -162,7 +164,7 @@ function UserInformation() {
       setUsers(dict);
     };
     fetchItems();
-  }, []);
+  }, [throwaway]);
 
   return (
     <div className="UserInformationPage">
@@ -189,12 +191,12 @@ function UserInformation() {
               userId={users[_id] === undefined ? "" : users[_id].username}
               itemId={_id}
             />
-            <div
+            <Button
               onClick={() => remove(_id)}
               style={{ width: "200px", background: "red" }}
             >
               DELETE
-            </div>
+            </Button>
           </div>
         </center>
       ))}
