@@ -11,7 +11,7 @@ const SearchBar = ({ setItems }) => {
   const search = async () => {
     if (query === "") return;
     const results = await getItems(query);
-    setItems(results);
+    setItems(results.items);
   };
 
   return (
