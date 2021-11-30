@@ -8,6 +8,7 @@ import User from "./pages/User";
 import Help from "./pages/Help";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/Layout/Layout";
+import ReportItem from "./pages/ReportItemPage"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="" element={<HomePage />} />
           <Route path="Help" element={<Help />} />
           <Route path="LostItems" element={<LostItems />} />
+          <Route path="ReportItem" element={<ReportItem />} />
           <Route path="Map" element={<Map />} />
           <Route path="User" element={<User />} />
           <Route path="Login" element={<Login />} />

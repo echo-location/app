@@ -10,7 +10,7 @@ import {
 import { pageSelect, iconSelect } from "../../../utils/utils";
 
 const Sidebar = ({ options, setOptions }) => {
-  const pages = ["Lost Items", "Map", "User Information", "Help"];
+  const pages = ["Lost Items", "Report An Item", "Map", "User Information", "Help"];
 
   const list = () => (
     <Box
