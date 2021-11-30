@@ -13,7 +13,7 @@ const Map = () => {
       <Map
         style="mapbox://styles/mapbox/streets-v9"
         containerStyle={{
-          height: "30rem",
+          height: "37rem",
           width: "100%",
         }}
       >
