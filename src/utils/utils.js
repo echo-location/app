@@ -2,6 +2,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import MapIcon from "@mui/icons-material/Map";
 import HelpIcon from "@mui/icons-material/Help";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 const getItems = async (query = null) => {
   let url = `http://localhost:8000/item/search`;
@@ -14,6 +15,9 @@ const pageSelect = (page) => {
   switch (page) {
     case "Lost Items":
       window.location.href = "LostItems";
+      break;
+    case "Report An Item":
+      window.location.href = "ReportItem"
       break;
     case "Map":
       window.location.href = "Map";
@@ -34,10 +38,12 @@ const iconSelect = (index) => {
     case 0:
       return <CatchingPokemonIcon />;
     case 1:
-      return <MapIcon />;
+      return <AddLocationAltIcon />;
     case 2:
-      return <PersonIcon />;
+      return <MapIcon />;
     case 3:
+      return <PersonIcon />;
+    case 4:
       return <HelpIcon />;
     default:
       return;
