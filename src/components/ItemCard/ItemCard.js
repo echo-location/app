@@ -41,7 +41,7 @@ const ItemCard = ({
     console.log(userId, itemId);
   }
   return (
-    <Card sx={{ maxWidth: 345, display: "flex" }}>
+    <Card sx={{ maxWidth: 500, display: "flex" }}>
       <div className="modal" style={{ display: showPhoto ? "" : "none" }}>
         <div className="modal-content">
           <span className="close" onClick={() => setShowPhoto(false)}>
