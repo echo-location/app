@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import SendIcon from "@mui/icons-material/Send";
-import { Input } from "@mui/material";
+import { Box, IconButton, Input, TextField } from "@mui/material";
+import { AddPhotoAlternate as AddPhotoAlternateIcon, Send as SendIcon } from "@mui/icons-material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { DatePicker, LocalizationProvider } from "@mui/lab";
 
 const AddItemForm = () => {
   const [item, setItem] = React.useState("");
@@ -16,6 +14,7 @@ const AddItemForm = () => {
 
   const [file, setFile] = useState(null);
   const [url, setURL] = useState(null);
+  const [date, setDate] = useState(new Date());
   //let uploadFailure = false;
 
   const submitFile = async (e) => {
@@ -37,6 +36,7 @@ const AddItemForm = () => {
         name: item,
         location: location,
         description: moreInfo,
+        date: date || new Date(),
       };
       const formData = new FormData();
       if (file) {
@@ -74,7 +74,6 @@ const AddItemForm = () => {
       //<Alert severity="error">This is an error alert — check it out!</Alert>
     }
   };
-
   return (
     <div>
       <Box
@@ -103,17 +102,41 @@ const AddItemForm = () => {
         />
         <TextField
           id="moreInfo"
-          label="More Info"
+          label="More Info (Optional)"
           type="Item"
           placeholder="Ex: Found it near the front"
           multiline
+          maxRows="20"
           onChange={updateMoreInfo}
         />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            minDate={new Date(0)}
+            maxDate={new Date().setDate(new Date().getDate() + 2)}
+            label="Date Found (Optional)"
+            value={date}
+            onChange={(newValue) => {
+              /*
+              if (newValue === '' || newValue === null) {
+                setDate(new Date());
+                console.log('empty date')
+                return;
+              } else if (!newValue) {
+                console.log(`falsy ${newValue}`);
+              }*/
+              setDate(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} helperText="Defaults to Today if Left Blank" inputProps={{ ...params.inputProps, placeholder: "MM/DD/YYYY" }} />}
+          />
+        </LocalizationProvider>
       </Box>
       <br />
       <br />
       <form onSubmit={(e) => submitFile(e)}>
-        <AddPhotoAlternateIcon />
+        <AddPhotoAlternateIcon style={{
+          paddingRight: "1%",
+          verticalAlign: "sub"
+        }} />
         <label htmlFor="contained-button-file">
           <Input
             accept="image/*"
