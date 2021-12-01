@@ -58,7 +58,7 @@ const LostItems = () => {
                   day: "numeric",
                   year: "numeric",
                 })}`}
-                image="" //TODO if no image, then use "" and ItemCard will handle it
+                image={photo} //TODO if no image, then use "" and ItemCard will handle it
                 userId={users[_id] === undefined ? "" : users[_id].username}
                 itemId={_id}
               />
