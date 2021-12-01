@@ -49,7 +49,7 @@ const ItemCard = ({
           </span>
 
           <div className="modal-image">
-            <img className="resize" src="mp100.jpg" alt="Mobbu!" />
+            <img className="resize" src={image} alt="Item" />
           </div>
 
           <div className="modal-footer">
@@ -61,8 +61,8 @@ const ItemCard = ({
         onClick={() => setShowPhoto(true)}
         component="img"
         sx={{ width: 40 }}
-        image="mp100.jpg"
-        alt="Mobbu!"
+        image={image === undefined ? "mp100.jpg" : image}
+        alt="Item Image"
       />
       <div
         style={{

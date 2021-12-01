@@ -14,8 +14,7 @@ function Help() {
         </AccordionSummary>
 
         <AccordionDetails>
-          We recommend only reporting things lost on UCLA Campus, or by UCLA
-          students.
+          We recommend only reporting items lost on UCLA Campus, or by UCLA students (ex. student IDs)
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -24,16 +23,16 @@ function Help() {
         </AccordionSummary>
 
         <AccordionDetails>
-          Please verify ownership of lost items before returning them.
+          Please verify ownership of lost items before returning them. This can include photos of owner with item or being able to name definitive features.
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          FAQ #3 - 
+          FAQ #3 - Items of a Sensitive Nature
         </AccordionSummary>
 
         <AccordionDetails>
-          Lorem Ipsum
+          If an item should not be posted online, default to reporting it to UCPD.
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -51,16 +50,16 @@ function Help() {
         </AccordionSummary>
 
         <AccordionDetails>
-          Do the Following.
+          <Link to="/Login?Page=ReportItem">Click here</Link>, and follow the steps on the page.
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          How to Report an Item
+          How to Search for an Item
         </AccordionSummary>
 
         <AccordionDetails>
-          Do the Following.
+          <Link to="/LostItems">Click here</Link>, and use our search feature. If you find your item, simply contact the finder.
         </AccordionDetails>
       </Accordion>
     </div>
