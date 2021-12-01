@@ -1,4 +1,3 @@
-import React from "react";
 import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState } from "react";
@@ -60,12 +59,12 @@ const Map = () => {
               layout={{ "icon-image": "harbor-15" }}
             >
               {coordinates.map((coord) => (
-                <Feature coordinates={coord} />
+                <Feature key={coord} coordinates={coord} />
               ))}
             </Layer>
 
             {coordinates.map((coord) => (
-              <Popup coordinates={coord}>
+              <Popup key={coord} coordinates={coord}>
                 <h1>Popup</h1>
               </Popup>
             ))}
