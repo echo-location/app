@@ -1,4 +1,11 @@
-import firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth";
 
 const config = {
   apiKey: "AIzaSyAFsqkQCx_7CYScQPSk21vYJ_j2vJYGz7Y",
@@ -14,12 +21,12 @@ const config = {
   appId: "1:1050387450921:web:2989826bc4be4e0d84e038",
 };
 
-const app = firebase.initializeApp(config);
-const auth = app.auth();
+const app = initializeApp(config);
+const auth = getAuth();
 
 const loginEmailPass = async (email, pass) => {
   try {
-    await auth.signInWithEmailAndPassword(email, pass);
+    await signInWithEmailAndPassword(auth, email, pass);
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -28,8 +35,9 @@ const loginEmailPass = async (email, pass) => {
 
 const registerEmailPass = async (name, email, pass) => {
   try {
-    const res = await auth.createUserWithEmailAndPassword(email, pass);
+    const res = await createUserWithEmailAndPassword(auth, email, pass);
     const user = res.user;
+    console.log(user);
   } catch (err) {
     console.error(err);
     console.error(err.message);
@@ -38,7 +46,7 @@ const registerEmailPass = async (name, email, pass) => {
 
 const sendPasswordReset = async (email) => {
   try {
-    await auth.sendPasswordResetEmail(email);
+    await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
   } catch (err) {
     console.error(err);
@@ -47,14 +55,7 @@ const sendPasswordReset = async (email) => {
 };
 
 const logout = () => {
-  auth.signOut();
+  signOut(auth);
 };
 
-export {
-  auth,
-  db,
-  loginEmailPass,
-  registerEmailPass,
-  sendPasswordReset,
-  logout,
-};
+export { auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout };

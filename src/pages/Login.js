@@ -1,86 +1,99 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
-function FormPropsTextFields({ errorState}) {
-  let help = "";
-  if (errorState) {
-    help = "Invalid password or username";
-  }
-  return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <TextField
-          required
-          id="Username"
-          label="Username"
-          error={errorState}
-          autoComplete="current-username"
-          helperText={help}
-        />
-        <TextField
-          required
-          id="Password"
-          label="Password"
-          type="password"
-          error={errorState}
-          autoComplete="current-password"
-        />
-      </div>
-    </Box>
-  );
-}
-
-function goToCreateAccount() {
-  window.location.href = "Account";
-}
+import Box from "@mui/material/Box";
+import Fields from "../components/Fields/Fields";
+import { auth, loginEmailPass } from "../utils/firebase";
 
 function Login() {
-  const [errorState, setErrorState] = useState(false);
-  function validateLogin(username, password) {
-    //stuff from api goes here
-    console.log(username, password); //for debugging
-    if (username === password) {
-      //temporary check
-      setErrorState(false);
-      let page = new URLSearchParams(window.location.search).get("Page");
-      fetch("http://localhost:8000/user/", {method:'GET'}).then((response) => response.json()).then((data) =>{
-        let users = data["users"]
-        let selectedUser = users.filter(user => {return user.username === username})
-        console.log(selectedUser)
-        window.location.href = page + "?User=" + username +"&UserID="+ selectedUser[0]._id
-      });
-    } else setErrorState(true);
-  }
+  const [user, setUser] = useState([
+    {
+      name: "username",
+      displayName: "Username",
+      type: "email",
+      help: "Invalid username and/or mismatch.",
+      value: "",
+      error: false,
+    },
+    {
+      name: "password",
+      type: "password",
+      displayName: "Password",
+      help: "Invalid password.",
+      value: "",
+      error: false,
+    },
+  ]);
+
+  const updateLogin = (key, value) => {
+    setUser(
+      user.map((item) => {
+        if (item.name === key)
+          return {
+            ...item,
+            value,
+          };
+        return item;
+      })
+    );
+  };
+
+  const submitLogin = () => {
+    const credentials = Object.assign(
+      {},
+      ...user.map((field) => ({ [field.name]: field.value }))
+    );
+    console.log(credentials);
+    if (1) {
+      console.log("This shit don't work! Do not touch!");
+      loginEmailPass(auth, credentials.username, credentials.password);
+    } else {
+      // default error to username
+      setUser(
+        user.map(
+          (obj) =>
+            user
+              .filter((field) => field.name === "username")
+              .map((field) => ({ ...field, error: true }))
+              .find((field) => field.name === obj.name) || obj
+        )
+      );
+    }
+  };
+
+  const refAccount = () => {
+    window.location.href = "Account";
+  };
+
+  // const validateLogin = (username, password) => {
+  //   //stuff from api goes here
+  //   console.log(username, password); //for debugging
+  //   if (username === password) {
+  //     //temporary check
+  //     setError(false);
+  //     let page = new URLSearchParams(window.location.search).get("Page");
+  //     fetch("http://localhost:8000/user/", { method: "GET" })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         let users = data["users"];
+  //         let selectedUser = users.filter((user) => {
+  //           return user.username === username;
+  //         });
+  //         console.log(selectedUser);
+  //         window.location.href =
+  //           page + "?User=" + username + "&UserID=" + selectedUser[0]._id;
+  //       });
+  //   } else setError(true);
+  // };
+
   return (
     <div className="LoginPage">
-      <center>
-        <h1>Please enter your login information or create an account.</h1>
-        <FormPropsTextFields
-          errorState={errorState}
-          setErrorState={() => setErrorState}
-        />
-        <Button
-          onClick={() =>
-            validateLogin(
-              document.getElementById("Username").value,
-              document.getElementById("Password").value
-            )
-          }
-        >
-          Login
-        </Button>
-      </center>
-      <center>
-        <Button variant="contained" onClick={() => goToCreateAccount()}>
+      <center
+        style={{ boxShadow: "0.1px 0.25px 3px black", padding: "2rem 0.5rem" }}
+      >
+        <h1>Login</h1>
+        <Fields user={user} updateLogin={updateLogin} />
+        <Button onClick={() => submitLogin()}>Login</Button>
+        <Button variant="contained" onClick={() => refAccount()}>
           Create an Account{" "}
         </Button>
       </center>

@@ -2,7 +2,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import MapIcon from "@mui/icons-material/Map";
 import HelpIcon from "@mui/icons-material/Help";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import { LegendToggleOutlined } from "@mui/icons-material";
 
 const getItems = async (query = null) => {
   let url = `http://localhost:8000/item/search`;
@@ -50,4 +51,33 @@ const iconSelect = (index) => {
   }
 };
 
-export { getItems, pageSelect, iconSelect };
+const validateForm = (credentials) => {
+  let errors = [];
+  console.log(credentials);
+  for (const [key, value] of Object.entries(credentials)) {
+    console.log(key, value);
+    switch (key) {
+      case "username":
+        break;
+      case "password":
+        if (value.length < 6) errors.push({ [key]: value });
+        break;
+      case "confirm":
+        if (!("password" in credentials) || credentials.password !== value)
+          errors.push({ [key]: value });
+        break;
+      case "email":
+        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/.test(value))
+          errors.push({ [key]: value });
+        break;
+      case "phone":
+        if (!/^([0-9]{3})-([0-9]{3})-([0-9]{4})$/.test(value))
+          errors.push({ [key]: value });
+        break;
+      default:
+        break;
+    }
+  }
+  return errors;
+};
+export { getItems, pageSelect, iconSelect, validateForm };
