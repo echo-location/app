@@ -3,7 +3,6 @@ import "../App.css";
 import { getItems } from "../utils/utils";
 import SearchBar from "../components/SearchBar/SearchBar";
 import ItemCard from "../components/ItemCard/ItemCard";
-import { styled } from "@mui/material/styles";
 
 const LostItems = () => {
   const [items, setItems] = useState([]);

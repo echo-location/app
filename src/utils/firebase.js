@@ -37,7 +37,7 @@ const registerEmailPass = async (name, email, pass) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, pass);
     const user = res.user;
-    console.log(user);
+    console.log(user, name);
   } catch (err) {
     console.error(err);
     console.error(err.message);
@@ -58,4 +58,11 @@ const logout = () => {
   signOut(auth);
 };
 
-export { auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout };
+export {
+  app,
+  auth,
+  loginEmailPass,
+  registerEmailPass,
+  sendPasswordReset,
+  logout,
+};
