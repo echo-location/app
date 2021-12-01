@@ -1,129 +1,100 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Fields from "../components/Fields/Fields";
+import { auth, registerEmailPass } from "../utils/firebase";
+import { validateForm } from "../utils/utils";
 
-function FormPropsTextFields({ error }) {
-  let errorState = false;
-  if (error.length !== 0) {
-    errorState = true;
-  }
-  return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <TextField
-          required
-          id="Username"
-          label="Username"
-          autoComplete="current-username"
-          error={errorState}
-        />
-        <TextField
-          required
-          id="Password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          error={errorState}
-        />
-        <TextField
-          required
-          id="Confirm-Password"
-          label="Confirm Password"
-          type="password"
-          autoComplete="current-password"
-          error={errorState}
-        />
-      </div>
-      <div>
-        <TextField id="Email" label="Email" error={errorState} />
-        <TextField
-          id="Phone Number"
-          label="Phone Number"
-          error={errorState}
-          helperText="Please put your phone number in the form 'XXX-XXX-XXXX'."
-        />
-      </div>
-    </Box>
-  );
-}
-
-function CreateAccount() {
-  const [error, setError] = useState("");
-  async function createNewAccount(
-    username,
-    password,
-    confirmPassword,
-    email,
-    phoneNumber
-  ) {
-    //stuff from api goes here
-    console.log(username, password, confirmPassword, email, phoneNumber); //for debugging
-    if (confirmPassword === password) {
-      //make sure that the password is confirmed
-      if (email !== "" || phoneNumber !== "") {
-        try {
-          const response = await fetch("http://localhost:8000/user/", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: username.toString() }), //will need to pass in email, phonenumber, password
-          });
-          console.log(response);
-          if (response.ok) {
-            setError("");
-            return;
-          } else {
-            const error = await response.json();
-            console.log(error);
-            setError(error.message);
-          }
-        } catch (err) {
-          console.log(err);
-          setError(err);
-        }
-      } else {
-        setError("Please enter your email or phone number");
-        return;
-      }
+const CreateAccount = () => {
+  const [user, setUser] = useState([
+    {
+      name: "username",
+      displayName: "Username",
+      type: "email",
+      help: "Invalid username and/or mismatch.",
+      value: "",
+      error: false,
+    },
+    {
+      name: "password",
+      type: "password",
+      displayName: "Password",
+      help: "Invalid password (must be at least be 6 characters).",
+      value: "",
+      error: false,
+    },
+    {
+      name: "confirm",
+      type: "password",
+      displayName: "Confirm Password",
+      help: "Invalid mismatch with password.",
+      value: "",
+      error: false,
+    },
+    {
+      name: "email",
+      type: "email",
+      displayName: "Email",
+      help: "Invalid email, use the format firstlast@service.com.",
+      value: "",
+      error: false,
+    },
+    {
+      name: "phone",
+      type: "text",
+      displayName: "Phone Number",
+      help: "Please put your phone number in the form 'XXX-XXX-XXXX'.",
+      value: "",
+      error: false,
+    },
+  ]);
+  const updateRegister = (key, value) => {
+    setUser(
+      user.map((item) => {
+        if (item.name === key)
+          return {
+            ...item,
+            value,
+          };
+        return item;
+      })
+    );
+  };
+  const submitRegister = () => {
+    const credentials = Object.assign(
+      {},
+      ...user.map((field) => ({ [field.name]: field.value }))
+    );
+    const errors = validateForm(credentials);
+    console.log(errors.length);
+    if (errors.length === 0) {
+      console.log("This shit don't work! Do not touch!");
+      registerEmailPass(auth, credentials.email, credentials.password);
     } else {
-      setError("Please make sure your passwords match");
-      return;
+      setUser(
+        user.map(
+          (obj) =>
+            user
+              .filter((field) => field.name in Object.assign({}, ...errors))
+              .map((field) => ({ ...field, error: true }))
+              .find((field) => field.name === obj.name) || obj
+        )
+      );
     }
-  }
+  };
+
   return (
-    <div className="LoginPage">
-      <center>
-        <h1>
-          Please enter your information the requisite fields to create your
-          account.
-        </h1>
-        <FormPropsTextFields error={error} />
-        <div>{error}</div>
-        <Button
-          onClick={() =>
-            createNewAccount(
-              document.getElementById("Username").value,
-              document.getElementById("Password").value,
-              document.getElementById("Confirm-Password").value,
-              document.getElementById("Email").value,
-              document.getElementById("Phone Number").value
-            )
-          }
-        >
-          Create Account
+    <div className="RegisterPage">
+      <center
+        style={{ boxShadow: "0.1px 0.25px 3px black", padding: "2rem 0.5rem" }}
+      >
+        <h1>Register</h1>
+        <Fields user={user} updateLogin={updateRegister} />
+        <Button variant="contained" onClick={() => submitRegister()}>
+          Create an Account{" "}
         </Button>
       </center>
     </div>
   );
-}
+};
 
 export default CreateAccount;
