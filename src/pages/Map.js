@@ -6,11 +6,14 @@ import { getItems } from "../utils/utils";
 
 const Map = () => {
   const [coordinates, setCoordinates] = useState([]);
+  const [coordItems, setCoordItems] = useState([]); //items with coordinates
   const center = [-118.4453, 34.071];
 
   useEffect(() => {
     const fetchCoordinates = async () => {
       const items = await getItems();
+
+      let newItems = [];
 
       const coords = items.items
         .map((item) => {
@@ -19,21 +22,15 @@ const Map = () => {
           const itemName = item.name;
           if (c.length == 0) return [];
           const [lat, long] = c;
+          newItems.push(item);
           return [long, lat];
         })
         .filter((item) => item.length > 0);
 
-      let newCenter = [0.0, 0.0];
-      coords.map((coord) => {
-        if (coord.length === 2) {
-          console.log(coord);
-          const [lat, long] = coord;
-          newCenter[0] += lat;
-          newCenter[1] += long;
-        }
-      });
-
       setCoordinates(coords);
+      setCoordItems(newItems);
+      console.log("coord items");
+      console.log(newItems);
     };
     fetchCoordinates();
   }, []);
@@ -47,7 +44,7 @@ const Map = () => {
     <div style={{ background: "red" }}>
       {/* eslint-disable-next-line */}
       <Map
-        style="mapbox://styles/mapbox/streets-v9"
+        style="mapbox://styles/mapbox/streets-v10"
         containerStyle={{
           height: "37rem",
           width: "100%",
@@ -60,16 +57,32 @@ const Map = () => {
             <Layer
               type="symbol"
               id="marker"
-              layout={{ "icon-image": "harbor-15" }}
+              layout={{ "icon-image": "suitcase-11" }}
             >
               {coordinates.map((coord) => (
                 <Feature coordinates={coord} />
               ))}
             </Layer>
 
-            {coordinates.map((coord) => (
+            {/* {coordinates.map((coord) => (
               <Popup coordinates={coord}>
                 <h1>Popup</h1>
+              </Popup>
+            ))} */}
+            {coordItems.map((item) => (
+              <Popup
+                coordinates={[
+                  item.meta.coordinates[1],
+                  item.meta.coordinates[0],
+                ]}
+                style={{ opacity: 0.7 }}
+              >
+                <center>
+                  <h3 style={{ color: "blue" }}>{item.name}</h3>
+                  {item.location}
+                  <br />
+                  <img src={item.photo} height="50px" width="50px"></img>
+                </center>
               </Popup>
             ))}
           </>
