@@ -16,117 +16,13 @@ import React, { useState, useEffect } from "react";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
+import AlertDialog from "../components/Dialog/AlertDialog";
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
-function AlertDialog({type, throwaway, setThrowaway, id}) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  function deleteUser(){
-    const userID = new URLSearchParams(window.location.search).get("UserID");
-    fetch(`http://localhost:8000/user/${userID}`,{method:'DELETE'}).then((response)=>{
-      if(response.ok){
-        console.log(response)
-        handleClose()
-        window.alert("You have successfully deleted your account. Redirecting back to lost items page.")
-        setTimeout(()=> window.location.href = "LostItems", 2000)
-      } else{throw new Error("Please try again.")}
-    })
-  }
-  const remove = (id) => {
-    console.log("remove", id);
-    fetch(`http://localhost:8000/item/${id}`, {
-    method: "DELETE",
-    }).then((response) => {
-      if(response.ok)
-      {
-        console.log(response, throwaway);
-        setThrowaway(!throwaway)
-      }
-      else
-      {
-        throw new Error("please try again")
-      }
-    });
-    handleClose()
-  };
-
-  if(type === "User")
-  {
-    return (
-      <div>
-        <Button variant="contained" onClick={handleClickOpen}>
-          Delete Account
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure you want to delete your account? "}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              This is permanent!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => {deleteUser()}} autoFocus>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
-  else
-  {
-    return (
-      <div>
-        <Button style={{ width: "200px", background: "red" }} onClick={handleClickOpen}>
-          Delete Item
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure you want to delete this item?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              This is permanent!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => remove(id)} autoFocus>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+function goToSettings(){
+  const username = new URLSearchParams(window.location.search).get("User");
+  const userid = new URLSearchParams(window.location.search).get("UserID");
+  window.location.href = `UserSettings?User=${username}&UserID=${userid}`;
 }
-
 function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
@@ -180,7 +76,7 @@ function UserInformation() {
   return (
     <div className="UserInformationPage">
       <div style={{ display: "flex", justifyContent: 'flex-end'}}>
-        <AlertDialog type = "User"></AlertDialog>
+        <AlertDialog type = "Logout" />
       </div>
       <h1>Items You have Reported</h1>
       {items.map(({ _id, name, location, description, date, photo }) => (
@@ -209,6 +105,13 @@ function UserInformation() {
           </div>
         </center>
       ))}
+      <center>
+        <div style={{position: "relative", width: "200px", height: '400px',}}>   
+          <div style={{position: "absolute", left: "15px", bottom: "5px"}}>
+            <Button variant = "contained" onClick = {() => goToSettings()}>Settings</Button>
+          </div>
+        </div>
+      </center>
     </div>
   );
 }
