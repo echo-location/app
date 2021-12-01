@@ -16,15 +16,21 @@ const AddItemForm = () => {
 
   const [file, setFile] = useState(null);
   const [url, setURL] = useState(null);
+  //let uploadFailure = false;
 
   const submitFile = async (e) => {
     try {
       e.preventDefault();
       console.log(item);
       // Item and location are required
-      if (item === "" || location === "") {
+      if (item === "") {
         // need to let user know about required fields
+        window.alert("Please input an item name.");
         throw new Error("Please input an item name");
+      } else if (location === "") {
+        // need to let user know about required fields
+        window.alert("Please input a location.");
+        throw new Error("Please input an location");
       }
 
       const payload = {
@@ -33,7 +39,9 @@ const AddItemForm = () => {
         description: moreInfo,
       };
       const formData = new FormData();
-      formData.append("file", file[0]);
+      if (file) {
+        formData.append("file", file[0]);
+      }
       formData.append("json", JSON.stringify(payload));
       console.log(formData.getAll("json")); //for testing purposes to see if request was successful
       let id = new URLSearchParams(window.location.search).get("UserID");
@@ -46,17 +54,24 @@ const AddItemForm = () => {
       )
         .then((response) => {
           console.log(response);
+          if (!response.ok) {
+            throw new Error("Couldn't add item");
+          }
           return response.json();
         })
         .then((data) => {
+          console.log("DATA");
           console.log(data);
-          setURL(data.data.Location);
+          if (file) {
+            setURL(data.data.Location);
+          }
         });
       // handle success
-      window.alert("Item created Successfully")
+      window.alert("Item created Successfully");
     } catch (error) {
       // handle error
       console.log(error);
+      //<Alert severity="error">This is an error alert — check it out!</Alert>
     }
   };
 
@@ -95,6 +110,8 @@ const AddItemForm = () => {
           onChange={updateMoreInfo}
         />
       </Box>
+      <br />
+      <br />
       <form onSubmit={(e) => submitFile(e)}>
         <AddPhotoAlternateIcon />
         <label htmlFor="contained-button-file">
@@ -112,9 +129,9 @@ const AddItemForm = () => {
         <IconButton
           type="submit"
           edge="start"
-          color="inherit"
+          color="secondary"
           aria-label="open drawer"
-          sx={{ mr: 2 }}
+          sx={{ mr: 2, border: 2, borderRadius: 120 }}
         >
           Add Item &nbsp;
           <SendIcon />
