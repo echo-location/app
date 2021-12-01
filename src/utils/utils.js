@@ -3,7 +3,6 @@ import MapIcon from "@mui/icons-material/Map";
 import HelpIcon from "@mui/icons-material/Help";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import { LegendToggleOutlined } from "@mui/icons-material";
 
 const getItems = async (query = null) => {
   let url = `http://localhost:8000/item/search`;
