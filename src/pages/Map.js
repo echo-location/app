@@ -16,7 +16,7 @@ const Map = () => {
         .map((item) => {
           console.log(item);
           const c = item.meta.coordinates;
-          if (c.length == 0) return [];
+          if (c.length === 0) return [];
           const [lat, long] = c;
           return [long, lat];
         })
@@ -28,6 +28,7 @@ const Map = () => {
         const [lat, long] = coord;
         newCenter[0] += lat;
         newCenter[1] += long;
+        return null;
       });
 
       setCenter([newCenter[0] / coords.length, newCenter[1] / coords.length]);
@@ -46,6 +47,7 @@ const Map = () => {
       {/* eslint-disable-next-line */}
       <Map
         style="mapbox://styles/mapbox/streets-v9"
+        center={center}
         containerStyle={{
           height: "37rem",
           width: "100%",

@@ -4,9 +4,6 @@ import TextField from "@mui/material/TextField";
 import "./Fields.css";
 
 const Fields = ({ user, updateLogin }) => {
-  useEffect(() => {
-    console.log(user);
-  }, []);
   return (
     <Box
       component="form"

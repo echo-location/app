@@ -71,10 +71,4 @@ const LostItems = () => {
   );
 };
 
-const StyledPopup = styled("div")(() => ({
-  fontSize: "1.5rem",
-  padding: 0,
-  margin: 0,
-}));
-
 export default LostItems;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import Fields from "../components/Fields/Fields";
 import { auth, loginEmailPass } from "../utils/firebase";
 
