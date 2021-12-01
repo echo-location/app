@@ -6,7 +6,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SendIcon from "@mui/icons-material/Send";
 import { Input } from "@mui/material";
 
-let AddItemForm = () => {
+const AddItemForm = () => {
   const [item, setItem] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [moreInfo, setMoreInfo] = React.useState("");
@@ -27,8 +27,7 @@ let AddItemForm = () => {
         // need to let user know about required fields
         window.alert("Please input an item name.");
         throw new Error("Please input an item name");
-      }
-      else if (location === "") {
+      } else if (location === "") {
         // need to let user know about required fields
         window.alert("Please input a location.");
         throw new Error("Please input an location");
@@ -111,6 +110,8 @@ let AddItemForm = () => {
           onChange={updateMoreInfo}
         />
       </Box>
+      <br />
+      <br />
       <form onSubmit={(e) => submitFile(e)}>
         <AddPhotoAlternateIcon />
         <label htmlFor="contained-button-file">
@@ -128,9 +129,9 @@ let AddItemForm = () => {
         <IconButton
           type="submit"
           edge="start"
-          color="inherit"
+          color="secondary"
           aria-label="open drawer"
-          sx={{ mr: 2 }}
+          sx={{ mr: 2, border: 2, borderRadius: 120 }}
         >
           Add Item &nbsp;
           <SendIcon />
