@@ -7,7 +7,20 @@ import { getItems } from "../utils/utils";
 const Map = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [coordItems, setCoordItems] = useState([]); //items with coordinates
+  const [users, setUsers] = useState({});
   const center = [-118.4453, 34.071];
+
+  const findUser = async (id) => {
+    try {
+      return fetch(`http://localhost:8000/user/${id}`, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => data.user[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const fetchCoordinates = async () => {
@@ -17,7 +30,7 @@ const Map = () => {
 
       const coords = items.items
         .map((item) => {
-          console.log(item);
+          //console.log(item);
           const c = item.meta.coordinates;
           if (c.length === 0) return [];
           const [lat, long] = c;
@@ -26,10 +39,14 @@ const Map = () => {
         })
         .filter((item) => item.length > 0);
 
+      let dict = {};
+      for (let i = 0; i < newItems.length; i++) {
+        const data = await findUser(newItems[i].user);
+        dict[newItems[i]._id] = data.username;
+      }
+      setUsers(dict);
       setCoordinates(coords);
       setCoordItems(newItems);
-      console.log("coord items");
-      console.log(newItems);
     };
     fetchCoordinates();
   }, []);
@@ -63,11 +80,6 @@ const Map = () => {
               ))}
             </Layer>
 
-            {/* {coordinates.map((coord) => (
-              <Popup coordinates={coord}>
-                <h1>Popup</h1>
-              </Popup>
-            ))} */}
             {coordItems.map((item) => (
               <Popup
                 coordinates={[
@@ -75,10 +87,18 @@ const Map = () => {
                   item.meta.coordinates[0],
                 ]}
                 style={{ opacity: 0.7 }}
+                onMouseEnter={() => {}} // set opacity to 0.9 or 1
+                onMouseLeave={() => console.log("t")} //set opacity back to 0.7
               >
                 <center>
                   <h3 style={{ color: "blue" }}>{item.name}</h3>
                   {item.location}
+                  <br />
+                  {item.description === "" ? "" : "Info: " + item.description}
+                  <br />
+                  {users[item._id] === undefined
+                    ? ""
+                    : "User-" + users[item._id]}
                   <br />
                   <img src={item.photo} height="50px" width="50px" alt=""></img>
                 </center>
