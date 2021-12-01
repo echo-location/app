@@ -1,13 +1,12 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
+//import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
+import logowhite from "../logowhite.png"
 function HomePage()
 {
     return (
         <div>
-        <h1>
-            <EditLocationAltIcon sx={{ fontSize: 64}} />
-        </h1>
+        <img src={logowhite} width="200" length="300" alt="LogoWhite" />
         <center>
         <h1>
             Echo Location
@@ -22,5 +21,7 @@ function HomePage()
         </div>
     );
 };
+
+//<EditLocationAltIcon sx={{ fontSize: 64}} />
 
 export default HomePage;
