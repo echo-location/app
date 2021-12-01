@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
-<<<<<<< HEAD
 import Button from "@mui/material/Button";
-=======
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-function AlertDialog({type, throwaway, setThrowaway, id}) {
+function AlertDialog({ type, throwaway, setThrowaway, id }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,37 +19,39 @@ function AlertDialog({type, throwaway, setThrowaway, id}) {
     setOpen(false);
   };
 
-  function deleteUser(){
+  function deleteUser() {
     const userID = new URLSearchParams(window.location.search).get("UserID");
-    fetch(`http://localhost:8000/user/${userID}`,{method:'DELETE'}).then((response)=>{
-      if(response.ok){
-        console.log(response)
-        handleClose()
-        window.alert("You have successfully deleted your account. Redirecting back to lost items page.")
-        setTimeout(()=> window.location.href = "LostItems", 2000)
-      } else{throw new Error("Please try again.")}
-    })
+    fetch(`http://localhost:8000/user/${userID}`, { method: "DELETE" }).then(
+      (response) => {
+        if (response.ok) {
+          console.log(response);
+          handleClose();
+          window.alert(
+            "You have successfully deleted your account. Redirecting back to lost items page."
+          );
+          setTimeout(() => (window.location.href = "LostItems"), 2000);
+        } else {
+          throw new Error("Please try again.");
+        }
+      }
+    );
   }
   const remove = (id) => {
     console.log("remove", id);
     fetch(`http://localhost:8000/item/${id}`, {
-    method: "DELETE",
+      method: "DELETE",
     }).then((response) => {
-      if(response.ok)
-      {
+      if (response.ok) {
         console.log(response);
-        setThrowaway(!throwaway)
-      }
-      else
-      {
-        throw new Error("please try again")
+        setThrowaway(!throwaway);
+      } else {
+        throw new Error("please try again");
       }
     });
-    handleClose()
+    handleClose();
   };
 
-  if(type === "User")
-  {
+  if (type === "User") {
     return (
       <div>
         <Button variant="contained" onClick={handleClickOpen}>
@@ -74,19 +73,25 @@ function AlertDialog({type, throwaway, setThrowaway, id}) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => {deleteUser()}} autoFocus>
+            <Button
+              onClick={() => {
+                deleteUser();
+              }}
+              autoFocus
+            >
               Yes
             </Button>
           </DialogActions>
         </Dialog>
       </div>
     );
-  }
-  else
-  {
+  } else {
     return (
       <div>
-        <Button style={{ width: "200px", background: "red" }} onClick={handleClickOpen}>
+        <Button
+          style={{ width: "200px", background: "red" }}
+          onClick={handleClickOpen}
+        >
           Delete Item
         </Button>
         <Dialog
@@ -203,29 +208,12 @@ function AlertDialog({type, throwaway, setThrowaway, id}) {
 //     </Card>
 //   );
 // }
->>>>>>> 7447a31ba134e6df9deea9d13ed9de70347793b7
 
 function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
   const [throwaway, setThrowaway] = useState(false);
 
-<<<<<<< HEAD
-  const remove = (id) => {
-    console.log("remove", id);
-    if (window.confirm("Are you sure you want to remove this item?")) {
-      const url = "http://localhost:8000";
-      fetch(`${url}/item/${id}`, {
-        method: "DELETE",
-      }).then((response) => {
-        console.log(response);
-        setThrowaway(!throwaway);
-      });
-    }
-  };
-
-=======
->>>>>>> 7447a31ba134e6df9deea9d13ed9de70347793b7
   const findUser = async (id) => {
     try {
       return fetch(`http://localhost:8000/user/${id}`, {
@@ -243,8 +231,7 @@ function UserInformation() {
       const userQuery = new URLSearchParams(window.location.search).get("User");
       const getUser = async (item, query) => {
         const user = await findUser(item.user);
-        if(user.user[0]=== undefined)
-        {
+        if (user.user[0] === undefined) {
           return false;
         }
         return user.user[0].username === query;
@@ -273,8 +260,8 @@ function UserInformation() {
 
   return (
     <div className="UserInformationPage">
-      <div style={{ display: "flex", justifyContent: 'flex-end'}}>
-        <AlertDialog type = "User"></AlertDialog>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <AlertDialog type="User"></AlertDialog>
       </div>
       <h1>Items You have Reported</h1>
       {items.map(({ _id, name, location, description, date, photo }) => (
@@ -299,7 +286,14 @@ function UserInformation() {
               userId={users[_id] === undefined ? "" : users[_id].username}
               itemId={_id}
             />
-            <AlertDialog type = "item" throwaway = {throwaway} setThrowaway = {() => setThrowaway()} id = {_id}>Delete Item</AlertDialog>
+            <AlertDialog
+              type="item"
+              throwaway={throwaway}
+              setThrowaway={() => setThrowaway()}
+              id={_id}
+            >
+              Delete Item
+            </AlertDialog>
           </div>
         </center>
       ))}
