@@ -36,8 +36,9 @@ const AddItemForm = () => {
       formData.append("file", file[0]);
       formData.append("json", JSON.stringify(payload));
       console.log(formData.getAll("json")); //for testing purposes to see if request was successful
+      let id = new URLSearchParams(window.location.search).get("UserID");
       await fetch(
-        `http://localhost:8000/item/create?uid=61a58f38eb4d44a6585ab895`, //need to get UID of user
+        `http://localhost:8000/item/create?uid=${id}`, //need to get UID of user
         {
           method: "POST",
           body: formData,
@@ -52,6 +53,7 @@ const AddItemForm = () => {
           setURL(data.data.Location);
         });
       // handle success
+      window.alert("Item created Successfully")
     } catch (error) {
       // handle error
       console.log(error);

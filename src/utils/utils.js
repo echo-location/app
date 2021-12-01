@@ -17,13 +17,13 @@ const pageSelect = (page) => {
       window.location.href = "LostItems";
       break;
     case "Report An Item":
-      window.location.href = "ReportItem"
+      window.location.href = "Login?Page=ReportItem";
       break;
     case "Map":
       window.location.href = "Map";
       break;
     case "User Information":
-      window.location.href = "Login";
+      window.location.href = "Login?Page=User";
       break;
     case "Help":
       window.location.href = "Help";

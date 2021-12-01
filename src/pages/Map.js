@@ -43,11 +43,11 @@ const Map = () => {
 
   return (
     <div style={{ background: "red" }}>
+      {/* eslint-disable-next-line */}
       <Map
         style="mapbox://styles/mapbox/streets-v9"
-        center={center}
         containerStyle={{
-          height: "30rem",
+          height: "37rem",
           width: "100%",
         }}
       >
