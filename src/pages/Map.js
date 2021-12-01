@@ -19,8 +19,7 @@ const Map = () => {
         .map((item) => {
           console.log(item);
           const c = item.meta.coordinates;
-          const itemName = item.name;
-          if (c.length == 0) return [];
+          if (c.length === 0) return [];
           const [lat, long] = c;
           newItems.push(item);
           return [long, lat];
@@ -42,8 +41,8 @@ const Map = () => {
 
   return (
     <div style={{ background: "red" }}>
-      {/* eslint-disable-next-line */}
       <Map
+        // eslint-disable-next-line
         style="mapbox://styles/mapbox/streets-v10"
         containerStyle={{
           height: "37rem",
@@ -81,7 +80,7 @@ const Map = () => {
                   <h3 style={{ color: "blue" }}>{item.name}</h3>
                   {item.location}
                   <br />
-                  <img src={item.photo} height="50px" width="50px"></img>
+                  <img src={item.photo} height="50px" width="50px" alt=""></img>
                 </center>
               </Popup>
             ))}
