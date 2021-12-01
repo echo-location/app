@@ -52,7 +52,7 @@ function AlertDialog({type, throwaway, setThrowaway, id}) {
     }).then((response) => {
       if(response.ok)
       {
-        console.log(response);
+        console.log(response, throwaway);
         setThrowaway(!throwaway)
       }
       else
@@ -205,7 +205,7 @@ function UserInformation() {
               userId={users[_id] === undefined ? "" : users[_id].username}
               itemId={_id}
             />
-            <AlertDialog type = "item" throwaway = {throwaway} setThrowaway = {() => setThrowaway()} id = {_id}>Delete Item</AlertDialog>
+            <AlertDialog type = "item" throwaway = {throwaway} setThrowaway = {setThrowaway} id = {_id}>Delete Item</AlertDialog>
           </div>
         </center>
       ))}
