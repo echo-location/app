@@ -8,7 +8,9 @@ import User from "./pages/User";
 import Help from "./pages/Help";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/Layout/Layout";
-import ReportItem from "./pages/ReportItemPage"
+import ReportItem from "./pages/ReportItemPage";
+import UserSettings from "./pages/UserSettings";
+import Logout from "./pages/Logout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           <Route path="User" element={<User />} />
           <Route path="Login" element={<Login />} />
           <Route path="Account" element={<Account />} />
+          <Route path="UserSettings" element={<UserSettings />} />
+          <Route path="Logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
     </Layout>
