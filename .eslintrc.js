@@ -16,7 +16,6 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: "module",
   },
-  plugins: ["react"],
   rules: {
     "react/style-prop-object": ["off"],
     quotes: ["off", "double"],
