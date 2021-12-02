@@ -10,7 +10,7 @@ import {
 import { createHash } from "crypto";
 
 const config = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: "AIzaSyAFsqkQCx_7CYScQPSk21vYJ_j2vJYGz7Y",
 
   authDomain: "echo-location-618f9.firebaseapp.com",
 
