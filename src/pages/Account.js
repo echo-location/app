@@ -69,12 +69,14 @@ const CreateAccount = () => {
     console.log(errors);
     console.log(errors.length);
     if (errors.length === 0) {
-      console.log("This shit don't work! Do not touch!");
+      let page = new URLSearchParams(window.location.search).get("Page"); 
+      //console.log("This shit don't work! Do not touch!");
       registerEmailPass(
         credentials.email,
         credentials.password,
         credentials.username,
-        credentials.phone
+        credentials.phone,
+        page
       );
     } else {
       setUser(

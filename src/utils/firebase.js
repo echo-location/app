@@ -47,7 +47,7 @@ const loginEmailPass = async (email, hash, page) => {
   }
 };
 
-const registerEmailPass = async (email, pass, username, phone) => {
+const registerEmailPass = async (email, pass, username, phone, page) => {
   try {
     const hashFunc = createHash("sha512");
     const hash = hashFunc.update(pass);
@@ -65,8 +65,9 @@ const registerEmailPass = async (email, pass, username, phone) => {
       }, body: JSON.stringify({ username: username, email: email, phone: phone })
     });
     if (res.ok) {
+
       setTimeout(() => {
-        window.location.href = "http://localhost:3000/Login?Page=User";
+        window.location.href = "http://localhost:3000/Login?Page=" + page;
       }, 2000);
     }
 
