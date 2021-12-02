@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updatePassword
 } from "firebase/auth";
 
 const config = {
@@ -44,6 +45,13 @@ const registerEmailPass = async (name, email, pass) => {
   }
 };
 
+const changePassword = (newPassword) => {
+  var user = auth.currentUser;
+  updatePassword(user, newPassword).then(() => {
+    console.log("Password updated!");
+  }).catch((error) => { console.log(error); });
+}
+
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -58,4 +66,4 @@ const logout = () => {
   signOut(auth);
 };
 
-export { app, auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout };
+export { app, auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout, changePassword };
