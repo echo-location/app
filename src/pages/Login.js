@@ -63,7 +63,8 @@ function Login() {
   };
 
   const refAccount = () => {
-    window.location.href = "Account";
+    let page = new URLSearchParams(window.location.search).get("Page");
+    window.location.href = "Account?Page=" + page;
   };
 
   // const validateLogin = (username, password) => {
