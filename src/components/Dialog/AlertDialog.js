@@ -5,9 +5,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import "./AlertDialog.css";
+import DeleteIcon from "@mui/icons-material";
+import { logout } from "../../utils/firebase";
 
 function AlertDialog({ type, throwaway, setThrowaway, id }) {
   const [open, setOpen] = useState(false);
@@ -19,8 +18,9 @@ function AlertDialog({ type, throwaway, setThrowaway, id }) {
   const handleClose = () => {
     setOpen(false);
   };
-  function logout() {
-    console.log("LOGOUT!"); // needs to be implemented
+  function logoutUser() {
+    // console.log("LOGOUT!") // needs to be implemented
+    logout();
     window.location.href = "Logout";
   }
   function deleteUser() {
@@ -147,7 +147,7 @@ function AlertDialog({ type, throwaway, setThrowaway, id }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => logout()} autoFocus>
+            <Button onClick={() => logoutUser()} autoFocus>
               Yes
             </Button>
           </DialogActions>

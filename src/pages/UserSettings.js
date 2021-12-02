@@ -1,16 +1,10 @@
-import { Button } from "@mui/material";
-import React from "react";
+import Button from "@mui/material/Button";
+import React, {useState} from "react";
 import AlertDialog from "../components/Dialog/AlertDialog";
-function changePassword(newPassword,confirm){
-    if(newPassword===confirm)
-    {
-        console.log(newPassword)
-    }
-    else
-    {
-        
-    }
-}
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import {changePassword} from "../utils/firebase"
+
 function backToItems(){
     const username = new URLSearchParams(window.location.search).get("User");
     const userid = new URLSearchParams(window.location.search).get("UserID");
@@ -18,11 +12,33 @@ function backToItems(){
   }
 
 function UserSettings(){
+    const [error, setError] = useState(false);
+    let help = ""
+    function changePass(newPassword,confirm){
+        if(newPassword===confirm)
+        {
+            setError(false);
+            help = "";
+            changePassword(newPassword);
+        }
+        else
+        {
+            setError(true);
+            help = "Please make sure your passwords match.";
+        }
+    }
     return(
         <div className="user-settings">
             <Button onClick = {() => backToItems()}>Return to your items</Button>
-            <AlertDialog type = "User" />
-            <Button onClick = {() => changePassword()}>Change Password</Button>
+            <center>
+                <h1>Fill in the fields to change your password, or press the corresponding buttons to delete your account or go back to your items page</h1>
+                <Box>
+                    <TextField id="pass" label="Password" variant="standard" error = {error} helperText = {help}/>
+                    <TextField id="confirm" label="Confirm Password" variant="standard" error = {error}/>
+                </Box>
+                <Button onClick = {() => changePass(document.getElementById("pass").value,document.getElementById("confirm").value)}>Change Password</Button>
+                <AlertDialog type = "User" />
+            </center>
         </div>);
 }
 export default UserSettings;

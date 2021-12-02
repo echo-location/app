@@ -5,7 +5,11 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updatePassword,
+  onAuthStateChanged,
 } from "firebase/auth";
+
+import { createHash } from "crypto";
 
 const config = {
   apiKey: "AIzaSyAFsqkQCx_7CYScQPSk21vYJ_j2vJYGz7Y",
@@ -24,25 +28,66 @@ const config = {
 const app = initializeApp(config);
 const auth = getAuth();
 
-const loginEmailPass = async (email, pass) => {
+const loginEmailPass = async (email, hash) => {
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    console.log(typeof (email), typeof (hash), email, hash);
+    const signIn = await signInWithEmailAndPassword(auth, email, hash);
+    // console.log(signIn);
+    console.log(getAuth().currentUser);
+    // window.location.href = "http://localhost:3000/User";
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
 };
 
-const registerEmailPass = async (name, email, pass) => {
+const registerEmailPass = async (email, pass, username, phone) => {
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, pass);
+    const hashFunc = createHash("sha512");
+    const hash = hashFunc.update(pass);
+    const hashString = hash.digest("hex");
+    let res = await createUserWithEmailAndPassword(auth, email, hashString);
     const user = res.user;
-    console.log(user);
+    console.log(`${Object.keys(user)}`);
+
+    // console.log(hash);
+    // console.log(typeof (hashString), hashString);
+    // console.log(typeof (hash.digest("hex")), typeof (user));
+    res = await fetch("http://localhost:8000/auth/register", {
+      method: "POST", headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify({ username: username, email: email, phone: phone })
+    });
+    if (res.ok) {
+      setTimeout(() => {
+        window.location.href = "http://localhost:3000/User";
+      }, 2000);
+    }
+
   } catch (err) {
     console.error(err);
-    console.error(err.message);
+    console.error(Object.keys(err));
+    // console.error(Object.keys(err));
+    console.error(err.name);
+    console.error(typeof (err.message));
+    console.error((err.message));
+    switch (err.message) {
+      case "Firebase: Error (auth/email-already-in-use).":
+        alert("Email already in use.")
+        break;
+      default:
+        alert("Error Registering");
+        break;
+    }
   }
 };
+
+const changePassword = (newPassword) => {
+  var user = auth.currentUser;
+  updatePassword(user, newPassword).then(() => {
+    console.log("Password updated!");
+  }).catch((error) => { console.log(error); });
+}
 
 const sendPasswordReset = async (email) => {
   try {
@@ -55,7 +100,38 @@ const sendPasswordReset = async (email) => {
 };
 
 const logout = () => {
+  console.log("logged out");
   signOut(auth);
 };
 
-export { app, auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout };
+let loggedIn = null;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    // const uid = user.uid;
+    // ...
+    loggedIn = true;
+  } else {
+    loggedIn = false;
+    // User is signed out
+    // ...
+  }
+});
+
+const isLoggedIn = () => {
+  console.log(`currentUser ${getAuth().currentUser}`);
+  return loggedIn;
+  // return (getAuth().currentUser ? true : false);
+};
+
+const getEmail = () => {
+  return getAuth().currentUser ? getAuth().currentUser.email : "";
+};
+
+
+export {
+  app, auth, loginEmailPass, registerEmailPass, sendPasswordReset,
+  logout, isLoggedIn, changePassword, getEmail,
+};

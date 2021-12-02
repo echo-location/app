@@ -4,6 +4,8 @@ import ItemCard from "../components/ItemCard/ItemCard";
 import AlertDialog from "../components/Dialog/AlertDialog";
 import Button from "@mui/material/Button";
 
+import { isLoggedIn } from "../utils/firebase";
+
 function goToSettings() {
   const username = new URLSearchParams(window.location.search).get("User");
   const userid = new URLSearchParams(window.location.search).get("UserID");
@@ -13,6 +15,7 @@ function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
   const [throwaway, setThrowaway] = useState(false);
+  // const [timeout] = useState(setTimeout(() => { window.location.href = "http://localhost:3000/Login" }, 1000));
 
   const findUser = async (id) => {
     try {
@@ -57,6 +60,9 @@ function UserInformation() {
     };
     fetchItems();
   }, [throwaway]);
+  if (isLoggedIn() === false) {
+    window.location.href = "http://localhost:3000/Login";
+  }
 
   return (
     <div className="UserInformationPage">
