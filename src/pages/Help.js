@@ -7,7 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import { Link } from "react-router-dom";
 import "./Help.css";
 
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 function Help() {
   return (
