@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { logout } from "../../utils/firebase";
 
 function AlertDialog({ type, throwaway, setThrowaway, id }) {
@@ -20,18 +21,24 @@ function AlertDialog({ type, throwaway, setThrowaway, id }) {
   function logoutUser() {
     // console.log("LOGOUT!") // needs to be implemented
     logout();
-    window.location.href = "Logout"
+    window.location.href = "Logout";
   }
   function deleteUser() {
     const userID = new URLSearchParams(window.location.search).get("UserID");
-    fetch(`http://localhost:8000/user/${userID}`, { method: 'DELETE' }).then((response) => {
-      if (response.ok) {
-        console.log(response)
-        handleClose()
-        window.alert("You have successfully deleted your account. Redirecting back to lost items page.")
-        setTimeout(() => window.location.href = "LostItems", 2000)
-      } else { throw new Error("Please try again.") }
-    })
+    fetch(`http://localhost:8000/user/${userID}`, { method: "DELETE" }).then(
+      (response) => {
+        if (response.ok) {
+          console.log(response);
+          handleClose();
+          window.alert(
+            "You have successfully deleted your account. Redirecting back to lost items page."
+          );
+          setTimeout(() => (window.location.href = "LostItems"), 2000);
+        } else {
+          throw new Error("Please try again.");
+        }
+      }
+    );
   }
   const remove = (id) => {
     console.log("remove", id);
@@ -40,13 +47,12 @@ function AlertDialog({ type, throwaway, setThrowaway, id }) {
     }).then((response) => {
       if (response.ok) {
         console.log(response, throwaway);
-        setThrowaway(!throwaway)
-      }
-      else {
-        throw new Error("please try again")
+        setThrowaway(!throwaway);
+      } else {
+        throw new Error("please try again");
       }
     });
-    handleClose()
+    handleClose();
   };
 
   if (type === "User") {
@@ -71,45 +77,55 @@ function AlertDialog({ type, throwaway, setThrowaway, id }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => { deleteUser() }} autoFocus>
+            <Button
+              onClick={() => {
+                deleteUser();
+              }}
+              autoFocus
+            >
               Yes
             </Button>
           </DialogActions>
         </Dialog>
       </div>
     );
-  }
-  else if (type === "item") {
+  } else if (type === "item") {
     return (
-      <div>
-        <Button style={{ width: "200px", background: "red" }} onClick={handleClickOpen}>
-          Delete Item
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure you want to delete this item?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              This is permanent!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>No</Button>
-            <Button onClick={() => remove(id)} autoFocus>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <>
+        <div className="sidemenu">
+          <DeleteIcon
+            color="primary"
+            fontSize="large"
+            sx={{ padding: "0.5rem" }}
+            onClick={handleClickOpen}
+          />
+        </div>
+        <div className="dialog">
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Are you sure you want to delete this item?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This is permanent!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>No</Button>
+              <Button onClick={() => remove(id)} autoFocus>
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </>
     );
-  }
-  else {
+  } else {
     return (
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>

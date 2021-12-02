@@ -8,7 +8,7 @@ const Fields = ({ user, updateLogin }) => {
     <Box
       component="form"
       sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
+        "& .MuiTextField-root": { m: 1, width: "25rem" },
       }}
       noValidate
       autoComplete="off"

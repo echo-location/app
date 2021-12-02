@@ -1,24 +1,8 @@
 import React, { useState, useEffect } from "react";
-// import { styled } from "@mui/material/styles";
-// import Card from "@mui/material/Card";
-// import CardHeader from "@mui/material/CardHeader";
-// import CardMedia from "@mui/material/CardMedia";
-// import CardContent from "@mui/material/CardContent";
-// import CardActions from "@mui/material/CardActions";
-// import Collapse from "@mui/material/Collapse";
-// import Avatar from "@mui/material/Avatar";
-// import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
-// import { red } from "@mui/material/colors";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
-// import ShareIcon from "@mui/icons-material/Share";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
 import AlertDialog from "../components/Dialog/AlertDialog";
-import Button from '@mui/material/Button';
-
+import "./User.css";
 import { isLoggedIn } from "../utils/firebase";
 
 function goToSettings() {
@@ -76,48 +60,70 @@ function UserInformation() {
     fetchItems();
   }, [throwaway]);
   if (isLoggedIn() === false) {
-    window.location.href = 'http://localhost:3000/Login';
+    window.location.href = "http://localhost:3000/Login";
   }
 
   return (
     <div className="UserInformationPage">
-      <div style={{ display: "flex", justifyContent: 'flex-end' }}>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <AlertDialog type="Logout" />
       </div>
-      <h1>Items You have Reported</h1>
-      {items.map(({ _id, name, location, description, date, photo }) => (
-        <center>
-          <div>
-            <ItemCard
-              username={users[_id] === undefined ? " " : users[_id].username}
-              item={name}
-              location={location}
-              contactInfo={
-                users[_id] === undefined
-                  ? ""
-                  : `${users[_id].email} | ${users[_id].phone} `
-              }
-              description={description}
-              dateFound={`Found: ${new Date(date).toLocaleDateString([], {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}`}
-              image={photo}
-              userId={users[_id] === undefined ? "" : users[_id].username}
-              itemId={_id}
-            />
-            <AlertDialog type="item" throwaway={throwaway} setThrowaway={setThrowaway} id={_id}>Delete Item</AlertDialog>
-          </div>
-        </center>
-      ))}
-      <center>
-        <div style={{ position: "relative", width: "200px", height: '400px', }}>
-          <div style={{ position: "absolute", left: "15px", bottom: "5px" }}>
-            <Button variant="contained" onClick={() => goToSettings()}>Settings</Button>
-          </div>
+      <div className="items">
+        <div className="side-section">
+          <h1 className="sub-heading">Report</h1>
+          <h1 className="heading">Found something? Report it!</h1>
+          <p className="text">
+            Welcome to your items. <br />
+            You can monitor what items you've current have on display, with some
+            helpful features.
+            <br /> <br />
+            We rely on your service to help users find the item they need, so
+            thanks in advance!
+            <br /> <br />
+            If you've received confirmation from a recipient, you can feel free
+            to delete your entry off our platform.
+          </p>
         </div>
-      </center>
+        <div className="main-section">
+          {items.map(({ _id, name, location, description, date, photo }) => (
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "98.5%", padding: "1rem 0" }}>
+                <ItemCard
+                  username={
+                    users[_id] === undefined ? " " : users[_id].username
+                  }
+                  item={name}
+                  location={location}
+                  contactInfo={
+                    users[_id] === undefined
+                      ? ""
+                      : `${users[_id].email} | ${users[_id].phone} `
+                  }
+                  description={description}
+                  dateFound={`Found: ${new Date(date).toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}`}
+                  image={photo}
+                  userId={users[_id] === undefined ? "" : users[_id].username}
+                  itemId={_id}
+                />
+              </div>
+              <div style={{ width: "1rem", margin: "1rem" }}>
+                <AlertDialog
+                  type="item"
+                  throwaway={throwaway}
+                  setThrowaway={setThrowaway}
+                  id={_id}
+                >
+                  Delete Item
+                </AlertDialog>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

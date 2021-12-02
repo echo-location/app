@@ -88,16 +88,39 @@ function Login() {
   // };
 
   return (
-    <div className="LoginPage">
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <center
-        style={{ boxShadow: "0.1px 0.25px 3px black", padding: "2rem 0.5rem" }}
+        style={{
+          width: "20%",
+          boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.15)",
+          padding: "3rem 2rem",
+        }}
       >
-        <h1>Login</h1>
+        <h1 style={{ margin: 0 }}>Login</h1>
+        <p style={{ margin: "0 0 1.5rem 0" }}>Welcome back, navigator!</p>
         <Fields user={user} updateLogin={updateLogin} />
-        <Button onClick={() => submitLogin()}>Login</Button>
-        <Button variant="contained" onClick={() => refAccount()}>
-          Create an Account{" "}
-        </Button>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "1rem 2rem",
+          }}
+        >
+          <Button onClick={() => submitLogin()}>Login</Button>
+          <Button variant="contained" onClick={() => refAccount()}>
+            Create an Account{" "}
+          </Button>
+        </div>
       </center>
     </div>
   );
