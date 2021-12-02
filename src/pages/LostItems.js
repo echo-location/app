@@ -58,7 +58,7 @@ const LostItems = () => {
           <div className="layout">
             <div
               onClick={() => {
-                window.location.href = "Login";
+                window.location.href = "Login?Page=User";
               }}
               className="button"
             >
@@ -74,7 +74,7 @@ const LostItems = () => {
             </div>
             <div
               onClick={() => {
-                window.location.href = "Register";
+                window.location.href = "Account?Page=User";
               }}
               className="button"
             >

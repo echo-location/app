@@ -4,7 +4,7 @@ const Modal = ({ image, showPhoto, setShowPhoto }) => {
   const [url, setURL] = useState("mp100.jpg");
   useEffect(() => {
     if (image !== undefined) setURL(image);
-  }, []);
+  }, [image]);
   return (
     <div className="modal" style={{ display: showPhoto ? "" : "none" }}>
       <div className="modal-content">

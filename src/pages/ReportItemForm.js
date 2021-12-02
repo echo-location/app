@@ -68,6 +68,7 @@ const AddItemForm = () => {
         });
       // handle success
       window.alert("Item created Successfully");
+      setTimeout(() => {window.location.href = "LostItems"}, 1000)
     } catch (error) {
       // handle error
       console.log(error);
