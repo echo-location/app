@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-  updatePassword
+  updatePassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { createHash } from "crypto";
@@ -30,6 +31,7 @@ const auth = getAuth();
 const loginEmailPass = async (email, hash, page) => {
   try {
     console.log(typeof (email), typeof (hash), email, hash);
+takeUserFromFirebase-danielKao
     await signInWithEmailAndPassword(auth, email, hash);
     //console.log(signIn);
     fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
@@ -105,11 +107,38 @@ const sendPasswordReset = async (email) => {
 };
 
 const logout = () => {
+  console.log("logged out");
   signOut(auth);
 };
 
+let loggedIn = null;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    // const uid = user.uid;
+    // ...
+    loggedIn = true;
+  } else {
+    loggedIn = false;
+    // User is signed out
+    // ...
+  }
+});
+
 const isLoggedIn = () => {
-  return (getAuth().currentUser ? true : false);
+  console.log(`currentUser ${getAuth().currentUser}`);
+  return loggedIn;
+  // return (getAuth().currentUser ? true : false);
 };
 
-export { app, auth, loginEmailPass, registerEmailPass, sendPasswordReset, logout, isLoggedIn, changePassword};
+const getEmail = () => {
+  return getAuth().currentUser ? getAuth().currentUser.email : "";
+};
+
+
+export {
+  app, auth, loginEmailPass, registerEmailPass, sendPasswordReset,
+  logout, isLoggedIn, changePassword, getEmail,
+};
