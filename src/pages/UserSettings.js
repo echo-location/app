@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import AlertDialog from "../components/Dialog/AlertDialog";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import {changePassword} from "../utils/firebase"
 
 function backToItems(){
     const username = new URLSearchParams(window.location.search).get("User");
@@ -13,12 +14,12 @@ function backToItems(){
 function UserSettings(){
     const [error, setError] = useState(false);
     let help = ""
-    function changePassword(newPassword,confirm){
+    function changePass(newPassword,confirm){
         if(newPassword===confirm)
         {
             setError(false);
-            console.log(newPassword) // need to do some database stuff
             help = "";
+            changePassword(newPassword);
         }
         else
         {
@@ -35,7 +36,7 @@ function UserSettings(){
                     <TextField id="pass" label="Password" variant="standard" error = {error} helperText = {help}/>
                     <TextField id="confirm" label="Confirm Password" variant="standard" error = {error}/>
                 </Box>
-                <Button onClick = {() => changePassword(document.getElementById("pass").value,document.getElementById("confirm").value)}>Change Password</Button>
+                <Button onClick = {() => changePass(document.getElementById("pass").value,document.getElementById("confirm").value)}>Change Password</Button>
                 <AlertDialog type = "User" />
             </center>
         </div>);
