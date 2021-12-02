@@ -3,12 +3,15 @@ import {
   SwipeableDrawer,
   List,
   ListItem,
-  ListItemIcon,
+  ListItemAvatar,
+  Avatar,
   ListItemText,
+  ListItemButton,
+  Divider,
 } from "@mui/material";
 
 import { pageSelect, iconSelect } from "../../../utils/utils";
-
+import "./Sidebar.css";
 const Sidebar = ({ options, setOptions }) => {
   const pages = [
     "Lost Items",
@@ -20,21 +23,37 @@ const Sidebar = ({ options, setOptions }) => {
 
   const list = () => (
     <Box
-      sx={{ width: "20rem", padding: "2rem 1rem" }}
+      sx={{ width: "25rem" }}
       onClick={() => setOptions(false)}
       onKeyDown={() => setOptions(false)}
     >
+      <div className="image-container">
+        <img className="image" src="bg.jpg" alt="Background" />
+        <div class="centered">let's navigate!</div>
+      </div>
       <List>
         {pages.map((text, index) => (
-          <ListItem
-            sx={{ padding: "2rem 0 2rem 3rem" }}
-            button
-            key={text}
-            onClick={() => pageSelect(text)}
-          >
-            <ListItemIcon>{iconSelect(index)}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+          <>
+            <ListItemButton>
+              <ListItem onClick={() => pageSelect(text)}>
+                <ListItemAvatar>
+                  <Avatar
+                    sx={{
+                      background: "#344CB7",
+                      width: 30,
+                      height: 30,
+                      boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.15)",
+                    }}
+                    variant="rounded"
+                  >
+                    {iconSelect(index)}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={text} />
+              </ListItem>
+            </ListItemButton>
+            <Divider />
+          </>
         ))}
       </List>
     </Box>

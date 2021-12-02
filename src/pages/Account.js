@@ -65,6 +65,7 @@ const CreateAccount = () => {
       ...user.map((field) => ({ [field.name]: field.value }))
     );
     const errors = validateForm(credentials);
+    console.log(errors);
     console.log(errors.length);
     if (errors.length === 0) {
       console.log("This shit don't work! Do not touch!");
@@ -83,13 +84,30 @@ const CreateAccount = () => {
   };
 
   return (
-    <div className="RegisterPage">
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <center
-        style={{ boxShadow: "0.1px 0.25px 3px black", padding: "2rem 0.5rem" }}
+        style={{
+          width: "20%",
+          boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.15)",
+          padding: "3rem 2rem",
+        }}
       >
-        <h1>Register</h1>
+        <h1 style={{ margin: 0 }}>Register</h1>
+        <p style={{ margin: "0 0 1.5rem 0" }}>Gain access to our features!</p>
         <Fields user={user} updateLogin={updateRegister} />
-        <Button variant="contained" onClick={() => submitRegister()}>
+        <Button
+          sx={{ margin: "2rem" }}
+          variant="contained"
+          onClick={() => submitRegister()}
+        >
           Create an Account{" "}
         </Button>
       </center>

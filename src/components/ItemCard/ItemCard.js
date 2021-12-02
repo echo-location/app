@@ -15,7 +15,7 @@ import { styled } from "@mui/material/styles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import Modal from "../Modal/Modal";
 const ItemCard = ({
   username,
   item,
@@ -41,22 +41,8 @@ const ItemCard = ({
     console.log(userId, itemId);
   }
   return (
-    <Card sx={{ maxWidth: 500, display: "flex" }}>
-      <div className="modal" style={{ display: showPhoto ? "" : "none" }}>
-        <div className="modal-content">
-          <span className="close" onClick={() => setShowPhoto(false)}>
-            &times;
-          </span>
-
-          <div className="modal-image">
-            <img className="resize" src={image} alt="Item" />
-          </div>
-
-          <div className="modal-footer">
-            <p>Add some photo metadata...</p>
-          </div>
-        </div>
-      </div>
+    <Card sx={{ display: "flex" }}>
+      <Modal image={image} showPhoto={showPhoto} setShowPhoto={setShowPhoto} />
       <StyledCardMedia
         onClick={() => setShowPhoto(true)}
         component="img"

@@ -1,31 +1,35 @@
 import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import "./Dropdown.css";
 const Dropdown = ({ onClick }) => {
-  const name = "Echo Location";
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        sx={{
+          background:
+            "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)",
+        }}
+        position="static"
+      >
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{
+              mr: 2,
+              borderRadius: "20px",
+              width: "36px",
+              height: "36px",
+            }}
             onClick={() => onClick()}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            textAlign="left"
-          >
-            {name}
-          </Typography>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p className="echo">echo</p>
+            <p className="location">Location</p>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
