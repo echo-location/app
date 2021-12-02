@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
-import { getEmail, registerEmailPass } from "../utils/firebase";
+import { registerEmailPass } from "../utils/firebase";
 import { validateForm } from "../utils/utils";
-import { isLoggedIn } from "../utils/firebase";
 
 const CreateAccount = () => {
   const [user, setUser] = useState([
@@ -90,23 +89,6 @@ const CreateAccount = () => {
       );
     }
   };
-  if (isLoggedIn() === true) {
-    let page = new URLSearchParams(window.location.search).get("Page");
-    let email = getEmail()
-    try{
-    fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
-    .then((response) => response.json())
-    .then((data) => {
-      let user = data["user"];
-      console.log(data, user);
-      window.location.href =
-        page + "?User=" + user.username + "&UserID=" + user._id;
-    })
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-  }
   return (
     <div
       style={{

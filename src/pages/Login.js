@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
-import { loginEmailPass } from "../utils/firebase";
+import { isLoggedIn, getEmail, loginEmailPass } from "../utils/firebase";
 import { createHash } from "crypto";
 import { validateForm } from "../utils/utils";
 
@@ -71,7 +71,23 @@ function Login() {
     let page = new URLSearchParams(window.location.search).get("Page");
     window.location.href = "Account?Page=" + page;
   };
-
+  if (isLoggedIn() === true) {
+    let page = new URLSearchParams(window.location.search).get("Page");
+    let email = getEmail()
+    try{
+    fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
+    .then((response) => response.json())
+    .then((data) => {
+      let user = data["user"];
+      console.log(data, user);
+      window.location.href =
+        page + "?User=" + user.username + "&UserID=" + user._id;
+    })
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+  }
   // const validateLogin = (username, password) => {
   //   //stuff from api goes here
   //   console.log(username, password); //for debugging

@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import React, { useState } from "react";
 import AlertDialog from "../components/Dialog/AlertDialog";
 import Fields from "../components/Fields/Fields";
-import { changePassword } from "../utils/firebase";
 import { validateForm } from "../utils/utils";
 
 function backToItems() {
