@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
 import { registerEmailPass } from "../utils/firebase";
 import { validateForm } from "../utils/utils";
+import { isLoggedIn } from "../utils/firebase";
 
 const CreateAccount = () => {
   const [user, setUser] = useState([
@@ -81,7 +82,9 @@ const CreateAccount = () => {
       );
     }
   };
-
+  if (isLoggedIn() === true) {
+    window.location.href = 'http://localhost:3000/User';
+  }
   return (
     <div className="RegisterPage">
       <center

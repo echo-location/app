@@ -18,7 +18,10 @@ import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
 import AlertDialog from "../components/Dialog/AlertDialog";
 import Button from '@mui/material/Button';
-function goToSettings(){
+
+import { isLoggedIn } from "../utils/firebase";
+
+function goToSettings() {
   const username = new URLSearchParams(window.location.search).get("User");
   const userid = new URLSearchParams(window.location.search).get("UserID");
   window.location.href = `UserSettings?User=${username}&UserID=${userid}`;
@@ -27,6 +30,7 @@ function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
   const [throwaway, setThrowaway] = useState(false);
+  // const [timeout] = useState(setTimeout(() => { window.location.href = "http://localhost:3000/Login" }, 1000));
 
   const findUser = async (id) => {
     try {
@@ -45,8 +49,7 @@ function UserInformation() {
       const userQuery = new URLSearchParams(window.location.search).get("User");
       const getUser = async (item, query) => {
         const user = await findUser(item.user);
-        if(user.user[0]=== undefined)
-        {
+        if (user.user[0] === undefined) {
           return false;
         }
         return user.user[0].username === query;
@@ -72,11 +75,14 @@ function UserInformation() {
     };
     fetchItems();
   }, [throwaway]);
+  if (isLoggedIn() === false) {
+    window.location.href = 'http://localhost:3000/Login';
+  }
 
   return (
     <div className="UserInformationPage">
-      <div style={{ display: "flex", justifyContent: 'flex-end'}}>
-        <AlertDialog type = "Logout" />
+      <div style={{ display: "flex", justifyContent: 'flex-end' }}>
+        <AlertDialog type="Logout" />
       </div>
       <h1>Items You have Reported</h1>
       {items.map(({ _id, name, location, description, date, photo }) => (
@@ -101,14 +107,14 @@ function UserInformation() {
               userId={users[_id] === undefined ? "" : users[_id].username}
               itemId={_id}
             />
-            <AlertDialog type = "item" throwaway = {throwaway} setThrowaway = {setThrowaway} id = {_id}>Delete Item</AlertDialog>
+            <AlertDialog type="item" throwaway={throwaway} setThrowaway={setThrowaway} id={_id}>Delete Item</AlertDialog>
           </div>
         </center>
       ))}
       <center>
-        <div style={{position: "relative", width: "200px", height: '400px',}}>   
-          <div style={{position: "absolute", left: "15px", bottom: "5px"}}>
-            <Button variant = "contained" onClick = {() => goToSettings()}>Settings</Button>
+        <div style={{ position: "relative", width: "200px", height: '400px', }}>
+          <div style={{ position: "absolute", left: "15px", bottom: "5px" }}>
+            <Button variant="contained" onClick={() => goToSettings()}>Settings</Button>
           </div>
         </div>
       </center>
