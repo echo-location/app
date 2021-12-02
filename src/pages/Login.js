@@ -8,9 +8,9 @@ function Login() {
   const [user, setUser] = useState([
     {
       name: "username",
-      displayName: "Username",
+      displayName: "Email",
       type: "email",
-      help: "Invalid username and/or mismatch.",
+      help: "Invalid Email and/or mismatch.",
       value: "",
       error: false,
     },
@@ -45,8 +45,9 @@ function Login() {
     console.log(credentials);
     if (1) {
       console.log("This shit don't work! Do not touch!");
+      let page = new URLSearchParams(window.location.search).get("Page");
       const hash = createHash("sha512").update(credentials.password).digest("hex");
-      loginEmailPass(credentials.username, hash);
+      loginEmailPass(credentials.username, hash, page);
     } else {
       // default error to username
       setUser(
