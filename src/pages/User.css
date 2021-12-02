@@ -1,0 +1,28 @@
+.sub-heading {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #152c939c;
+}
+.heading {
+  font-size: 3rem;
+  margin: 0;
+}
+.items {
+  display: flex;
+  background-color: #496aff04;
+}
+
+.text {
+  font-size: 1.4rem;
+  padding-right: 2.5rem;
+  color: rgba(66, 66, 70);
+}
+.side-section {
+  margin: 2rem;
+  width: 20%;
+}
+
+.main-section {
+  margin: 2rem;
+  flex-grow: 3;
+}

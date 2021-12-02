@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getItems } from "../utils/utils";
 import ItemCard from "../components/ItemCard/ItemCard";
 import AlertDialog from "../components/Dialog/AlertDialog";
-import Button from "@mui/material/Button";
-
+import "./User.css";
 import { isLoggedIn } from "../utils/firebase";
 
 function goToSettings() {
@@ -69,74 +68,62 @@ function UserInformation() {
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <AlertDialog type="Logout" />
       </div>
-      <h1>Report an Item</h1>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "60%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
+      <div className="items">
+        <div className="side-section">
+          <h1 className="sub-heading">Report</h1>
+          <h1 className="heading">Found something? Report it!</h1>
+          <p className="text">
+            Welcome to your items. <br />
+            You can monitor what items you've current have on display, with some
+            helpful features.
+            <br /> <br />
+            We rely on your service to help users find the item they need, so
+            thanks in advance!
+            <br /> <br />
+            If you've received confirmation from a recipient, you can feel free
+            to delete your entry off our platform.
+          </p>
+        </div>
+        <div className="main-section">
           {items.map(({ _id, name, location, description, date, photo }) => (
-            <center>
-              <div style={{ display: "flex" }}>
-                <div style={{ flexGrow: 3 }}>
-                  <ItemCard
-                    username={
-                      users[_id] === undefined ? " " : users[_id].username
-                    }
-                    item={name}
-                    location={location}
-                    contactInfo={
-                      users[_id] === undefined
-                        ? ""
-                        : `${users[_id].email} | ${users[_id].phone} `
-                    }
-                    description={description}
-                    dateFound={`Found: ${new Date(date).toLocaleDateString([], {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}`}
-                    image={photo}
-                    userId={users[_id] === undefined ? "" : users[_id].username}
-                    itemId={_id}
-                  />
-                </div>
-                <div style={{ width: "10rem" }}>
-                  <AlertDialog
-                    type="item"
-                    throwaway={throwaway}
-                    setThrowaway={setThrowaway}
-                    id={_id}
-                  >
-                    Delete Item
-                  </AlertDialog>
-                </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "98.5%", padding: "1rem 0" }}>
+                <ItemCard
+                  username={
+                    users[_id] === undefined ? " " : users[_id].username
+                  }
+                  item={name}
+                  location={location}
+                  contactInfo={
+                    users[_id] === undefined
+                      ? ""
+                      : `${users[_id].email} | ${users[_id].phone} `
+                  }
+                  description={description}
+                  dateFound={`Found: ${new Date(date).toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}`}
+                  image={photo}
+                  userId={users[_id] === undefined ? "" : users[_id].username}
+                  itemId={_id}
+                />
               </div>
-            </center>
+              <div style={{ width: "1rem", margin: "1rem" }}>
+                <AlertDialog
+                  type="item"
+                  throwaway={throwaway}
+                  setThrowaway={setThrowaway}
+                  id={_id}
+                >
+                  Delete Item
+                </AlertDialog>
+              </div>
+            </div>
           ))}
         </div>
       </div>
-      <center>
-        <div style={{ position: "relative", width: "200px", height: "400px" }}>
-          <div style={{ position: "absolute", left: "15px", bottom: "5px" }}>
-            <Button variant="contained" onClick={() => goToSettings()}>
-              Settings
-            </Button>
-          </div>
-        </div>
-      </center>
     </div>
   );
 }
