@@ -93,7 +93,11 @@ const LostItems = () => {
                 username={users[_id] === undefined ? " " : users[_id].username}
                 item={name}
                 location={location}
-                contactInfo= {`${users[_id].phone} | ${users[_id].email}`}  
+                contactInfo={
+                  users[_id] === undefined
+                    ? " "
+                    : `${users[_id].phone} | ${users[_id].email}`
+                }
                 description={description}
                 dateFound={`Found: ${new Date(date).toLocaleDateString([], {
                   month: "long",
