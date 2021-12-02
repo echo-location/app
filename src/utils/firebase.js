@@ -31,7 +31,6 @@ const auth = getAuth();
 const loginEmailPass = async (email, hash, page) => {
   try {
     console.log(typeof (email), typeof (hash), email, hash);
-takeUserFromFirebase-danielKao
     await signInWithEmailAndPassword(auth, email, hash);
     //console.log(signIn);
     fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
