@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
-import { auth, registerEmailPass } from "../utils/firebase";
+import { registerEmailPass } from "../utils/firebase";
 import { validateForm } from "../utils/utils";
 
 const CreateAccount = () => {
@@ -68,7 +68,7 @@ const CreateAccount = () => {
     console.log(errors.length);
     if (errors.length === 0) {
       console.log("This shit don't work! Do not touch!");
-      registerEmailPass(auth, credentials.email, credentials.password);
+      registerEmailPass(credentials.email, credentials.password, credentials.username, credentials.phone);
     } else {
       setUser(
         user.map(

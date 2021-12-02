@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
-import { auth, loginEmailPass } from "../utils/firebase";
+import { loginEmailPass } from "../utils/firebase";
+import { createHash } from "crypto";
 
 function Login() {
   const [user, setUser] = useState([
@@ -44,7 +45,8 @@ function Login() {
     console.log(credentials);
     if (1) {
       console.log("This shit don't work! Do not touch!");
-      loginEmailPass(auth, credentials.username, credentials.password);
+      const hash = createHash("sha512").update(credentials.password).digest("hex");
+      loginEmailPass(credentials.username, hash);
     } else {
       // default error to username
       setUser(
