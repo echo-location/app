@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Dropdown.css";
 const Dropdown = ({ onClick }) => {

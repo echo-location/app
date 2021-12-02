@@ -4,12 +4,14 @@ import ItemCard from "../components/ItemCard/ItemCard";
 import AlertDialog from "../components/Dialog/AlertDialog";
 import "./User.css";
 import { isLoggedIn } from "../utils/firebase";
+import { Button } from "@mui/material";
 
 function goToSettings() {
   const username = new URLSearchParams(window.location.search).get("User");
   const userid = new URLSearchParams(window.location.search).get("UserID");
   window.location.href = `UserSettings?User=${username}&UserID=${userid}`;
 }
+
 function UserInformation() {
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState({});
@@ -67,6 +69,17 @@ function UserInformation() {
     <div className="UserInformationPage">
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <AlertDialog type="Logout" />
+      </div>
+      <div
+        style={{
+          padding: "0.5rem 0",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button variant="outlined" onClick={() => goToSettings()}>
+          Setting
+        </Button>
       </div>
       <div className="items">
         <div className="side-section">

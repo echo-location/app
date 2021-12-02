@@ -56,9 +56,30 @@ const LostItems = () => {
             searchbar!
           </p>
           <div className="layout">
-            <div className="button">Login</div>
-            <div className="button">Map</div>
-            <div className="button">Register</div>
+            <div
+              onClick={() => {
+                window.location.href = "Login";
+              }}
+              className="button"
+            >
+              Login
+            </div>
+            <div
+              onClick={() => {
+                window.location.href = "Map";
+              }}
+              className="button"
+            >
+              Map
+            </div>
+            <div
+              onClick={() => {
+                window.location.href = "Register";
+              }}
+              className="button"
+            >
+              Register
+            </div>
           </div>
         </div>
         <div className="main-section">

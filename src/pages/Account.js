@@ -119,7 +119,7 @@ const CreateAccount = () => {
     >
       <center
         style={{
-          width: "20%",
+          width: "30%",
           boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.15)",
           padding: "3rem 2rem",
         }}
