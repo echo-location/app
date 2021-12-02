@@ -23,6 +23,7 @@ const Map = () => {
 
   const [contactUser, setContactUser] = useState("1(800)123-TEST");
   const [popupItem, setPopupItem] = useState("");
+  const [popupLoc, setPopupLoc] = useState("");
   const [displayBool, setDisplayBool] = useState(false);
 
   const findUser = async (id) => {
@@ -57,7 +58,6 @@ const Map = () => {
       let dict = {};
       for (let i = 0; i < newItems.length; i++) {
         const data = await findUser(newItems[i].user);
-        console.log(data);
         dict[newItems[i]._id] = data;
       }
       setUsers(dict);
@@ -77,7 +77,7 @@ const Map = () => {
       <div style={{ height: "100%", border: "2px solid blue" }}>
         <AlertDialog
           contactUser={contactUser}
-          user={"bellish"}
+          location={popupLoc}
           item={popupItem}
         />
         <Map
@@ -181,6 +181,7 @@ const Map = () => {
                   setDisplayBool(true);
                   setContactUser(users[item._id]);
                   setPopupItem(item.name);
+                  setPopupLoc(item.location);
                 }}
               >
                 <center>
@@ -206,8 +207,7 @@ const Map = () => {
   );
 };
 
-function AlertDialog({ contactUser, item = "airpods" }) {
-  console.log("ran");
+function AlertDialog({ contactUser, location, item = "airpods"}) {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -243,6 +243,8 @@ function AlertDialog({ contactUser, item = "airpods" }) {
             {contactUser.phone === "" ? "No # given" : contactUser.phone}
             <br />
             Item: {item}
+            <br/>
+            {location}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
