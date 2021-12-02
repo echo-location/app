@@ -30,8 +30,8 @@ const auth = getAuth();
 const loginEmailPass = async (email, hash, page) => {
   try {
     console.log(typeof (email), typeof (hash), email, hash);
-    const signIn = await signInWithEmailAndPassword(auth, email, hash);
-    console.log(signIn);
+    await signInWithEmailAndPassword(auth, email, hash);
+    //console.log(signIn);
     fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
     .then((response) => response.json())
     .then((data) => {
