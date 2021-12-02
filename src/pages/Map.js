@@ -16,6 +16,10 @@ const Map = () => {
   const [coordItems, setCoordItems] = useState([]); //items with coordinates
   const [users, setUsers] = useState({});
   const center = [-118.4453, 34.071];
+  const mapStyle = "mapbox://styles/mapbox/streets-v11";
+  const mapZoom = [15];
+  const mapPitch = [85];
+  const mapBearing = [49];
 
   const [contactUser, setContactUser] = useState("1(800)123-TEST");
   const [popupItem, setPopupItem] = useState("");
@@ -78,13 +82,15 @@ const Map = () => {
         />
         <Map
           // eslint-disable-next-line
-          style="mapbox://styles/mapbox/streets-v10"
+          style={mapStyle}
           containerStyle={{
             height: "37rem",
             width: "100%",
           }}
           center={center}
-          zoom={[14.5]}
+          zoom={mapZoom}
+          pitch={mapPitch}
+          bearing={mapBearing}
         >
           {coordinates.length > 0 && (
             <>
@@ -104,7 +110,7 @@ const Map = () => {
                     item.meta.coordinates[1],
                     item.meta.coordinates[0],
                   ]}
-                  style={{ opacity: 0.7 }}
+                  style={{ opacity: 0.72 }}
                   onMouseEnter={() => {}} // set opacity to 0.9 or 1
                   onMouseLeave={() => console.log("t")} //set opacity back to 0.7
                 >
@@ -140,13 +146,15 @@ const Map = () => {
     <div style={{ height: "100%" }}>
       <Map
         // eslint-disable-next-line
-        style="mapbox://styles/mapbox/streets-v10"
+        style={mapStyle}
         containerStyle={{
           height: "100%",
           width: "100%",
         }}
         center={center}
-        zoom={[14.5]}
+        zoom={mapZoom}
+        pitch={mapPitch}
+        bearing={mapBearing}
       >
         {coordinates.length > 0 && (
           <>
