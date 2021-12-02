@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Fields from "../components/Fields/Fields";
-import { registerEmailPass } from "../utils/firebase";
+import { getEmail, registerEmailPass } from "../utils/firebase";
 import { validateForm } from "../utils/utils";
 import { isLoggedIn } from "../utils/firebase";
 
@@ -69,12 +69,14 @@ const CreateAccount = () => {
     console.log(errors);
     console.log(errors.length);
     if (errors.length === 0) {
-      console.log("This shit don't work! Do not touch!");
+      let page = new URLSearchParams(window.location.search).get("Page"); 
+      //console.log("This shit don't work! Do not touch!");
       registerEmailPass(
         credentials.email,
         credentials.password,
         credentials.username,
-        credentials.phone
+        credentials.phone,
+        page
       );
     } else {
       setUser(
@@ -89,7 +91,21 @@ const CreateAccount = () => {
     }
   };
   if (isLoggedIn() === true) {
-    window.location.href = "http://localhost:3000/User";
+    let page = new URLSearchParams(window.location.search).get("Page");
+    let email = getEmail()
+    try{
+    fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
+    .then((response) => response.json())
+    .then((data) => {
+      let user = data["user"];
+      console.log(data, user);
+      window.location.href =
+        page + "?User=" + user.username + "&UserID=" + user._id;
+    })
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
   }
   return (
     <div
