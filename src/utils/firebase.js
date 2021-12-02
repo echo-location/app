@@ -28,13 +28,19 @@ const config = {
 const app = initializeApp(config);
 const auth = getAuth();
 
-const loginEmailPass = async (email, hash) => {
+const loginEmailPass = async (email, hash, page) => {
   try {
     console.log(typeof (email), typeof (hash), email, hash);
-    const signIn = await signInWithEmailAndPassword(auth, email, hash);
-    // console.log(signIn);
-    console.log(getAuth().currentUser);
-    // window.location.href = "http://localhost:3000/User";
+    await signInWithEmailAndPassword(auth, email, hash);
+    //console.log(signIn);
+    fetch(`http://localhost:8000/user/email/${email}`, { method: "GET" })
+    .then((response) => response.json())
+    .then((data) => {
+      let user = data["user"];
+      console.log(data, user);
+      window.location.href =
+        page + "?User=" + user.username + "&UserID=" + user._id;
+    })
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -60,7 +66,7 @@ const registerEmailPass = async (email, pass, username, phone) => {
     });
     if (res.ok) {
       setTimeout(() => {
-        window.location.href = "http://localhost:3000/User";
+        window.location.href = "http://localhost:3000/Login?Page=User";
       }, 2000);
     }
 
@@ -83,7 +89,7 @@ const registerEmailPass = async (email, pass, username, phone) => {
 };
 
 const changePassword = (newPassword) => {
-  var user = auth.currentUser;
+  let user = auth.currentUser;
   updatePassword(user, newPassword).then(() => {
     console.log("Password updated!");
   }).catch((error) => { console.log(error); });

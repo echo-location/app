@@ -3,12 +3,23 @@ import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState } from "react";
 import { getItems } from "../utils/utils";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 
 const Map = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [coordItems, setCoordItems] = useState([]); //items with coordinates
   const [users, setUsers] = useState({});
   const center = [-118.4453, 34.071];
+
+  const [contactUser, setContactUser] = useState("1(800)123-TEST");
+  const [popupItem, setPopupItem] = useState("");
+  const [displayBool, setDisplayBool] = useState(false);
 
   const findUser = async (id) => {
     try {
@@ -34,7 +45,7 @@ const Map = () => {
           const c = item.meta.coordinates;
           if (c.length === 0) return [];
           const [lat, long] = c;
-          newItems.push(item);
+          newItems.push(item); //only get items with coordinates
           return [long, lat];
         })
         .filter((item) => item.length > 0);
@@ -42,7 +53,8 @@ const Map = () => {
       let dict = {};
       for (let i = 0; i < newItems.length; i++) {
         const data = await findUser(newItems[i].user);
-        dict[newItems[i]._id] = data.username;
+        console.log(data);
+        dict[newItems[i]._id] = data;
       }
       setUsers(dict);
       setCoordinates(coords);
@@ -55,6 +67,74 @@ const Map = () => {
     accessToken:
       "pk.eyJ1Ijoic3dlZW5leW5nbyIsImEiOiJja3dsb25jbzQyM3I1MnBwd2RtemFldWhpIn0.VTSZL-ecZvL5SK7S1uL9iw",
   });
+
+  if (displayBool) {
+    return (
+      <div>
+        <AlertDialog
+          contactUser={contactUser}
+          user={"bellish"}
+          item={popupItem}
+        />
+        <Map
+          // eslint-disable-next-line
+          style="mapbox://styles/mapbox/streets-v10"
+          containerStyle={{
+            height: "37rem",
+            width: "100%",
+          }}
+          center={center}
+          zoom={[14.5]}
+        >
+          {coordinates.length > 0 && (
+            <>
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ "icon-image": "suitcase-11" }}
+              >
+                {coordinates.map((coord) => (
+                  <Feature coordinates={coord} />
+                ))}
+              </Layer>
+
+              {coordItems.map((item) => (
+                <Popup
+                  coordinates={[
+                    item.meta.coordinates[1],
+                    item.meta.coordinates[0],
+                  ]}
+                  style={{ opacity: 0.7 }}
+                  onMouseEnter={() => {}} // set opacity to 0.9 or 1
+                  onMouseLeave={() => console.log("t")} //set opacity back to 0.7
+                >
+                  <center>
+                    <h3 style={{ color: "blue" }}>{item.name}</h3>
+                    <i>{item.location}</i>
+                    <br />
+                    {item.description === "" ? "" : "Info: " + item.description}
+                    <br />
+                    <b>
+                      {users[item._id] === undefined
+                        ? ""
+                        : "User: " + users[item._id].username}
+                    </b>
+                    <br />
+                    <img
+                      src={item.photo}
+                      height="50px"
+                      width="50px"
+                      alt=""
+                    ></img>
+                  </center>
+                </Popup>
+              ))}
+            </>
+          )}
+        </Map>
+      </div>
+    );
+  }
 
   return (
     <div style={{ height: "100%" }}>
@@ -89,16 +169,23 @@ const Map = () => {
                 style={{ opacity: 0.7 }}
                 onMouseEnter={() => {}} // set opacity to 0.9 or 1
                 onMouseLeave={() => console.log("t")} //set opacity back to 0.7
+                onClick={() => {
+                  setDisplayBool(true);
+                  setContactUser(users[item._id]);
+                  setPopupItem(item.name);
+                }}
               >
                 <center>
                   <h3 style={{ color: "blue" }}>{item.name}</h3>
-                  {item.location}
+                  <i>{item.location}</i>
                   <br />
                   {item.description === "" ? "" : "Info: " + item.description}
                   <br />
-                  {users[item._id] === undefined
-                    ? ""
-                    : "User-" + users[item._id]}
+                  <b>
+                    {users[item._id] === undefined
+                      ? ""
+                      : "User: " + users[item._id].username}
+                  </b>
                   <br />
                   <img src={item.photo} height="50px" width="50px" alt=""></img>
                 </center>
@@ -110,5 +197,52 @@ const Map = () => {
     </div>
   );
 };
+
+function AlertDialog({ contactUser, item = "airpods" }) {
+  console.log("ran");
+  const [open, setOpen] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Button
+            color="secondary"
+            variant="contained"
+            startIcon={<ContactPhoneIcon />}
+            style={{
+              backgroundColor: "#FFFFFF",
+              color: "#000000",
+            }}
+            size="large"
+          >
+            Contact {contactUser.username}
+          </Button>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {contactUser.email === "" ? "No email given" : contactUser.email}
+            <br />
+            {contactUser.phone === "" ? "No # given" : contactUser.phone}
+            <br />
+            Item: {item}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
 export default Map;
