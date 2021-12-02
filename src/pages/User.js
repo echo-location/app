@@ -62,7 +62,7 @@ function UserInformation() {
     fetchItems();
   }, [throwaway]);
   if (isLoggedIn() === false) {
-    window.location.href = "http://localhost:3000/Login";
+    window.location.href = "http://localhost:3000/Login?Page=User";
   }
 
   return (
