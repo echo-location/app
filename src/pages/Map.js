@@ -74,7 +74,7 @@ const Map = () => {
 
   if (displayBool) {
     return (
-      <div>
+      <div style={{ height: "100%", border: "2px solid blue" }}>
         <AlertDialog
           contactUser={contactUser}
           user={"bellish"}
@@ -84,7 +84,7 @@ const Map = () => {
           // eslint-disable-next-line
           style={mapStyle}
           containerStyle={{
-            height: "37rem",
+            height: "100%",
             width: "100%",
           }}
           center={center}
@@ -110,7 +110,7 @@ const Map = () => {
                     item.meta.coordinates[1],
                     item.meta.coordinates[0],
                   ]}
-                  style={{ opacity: 0.72 }}
+                  style={{ opacity: 0.8 }}
                   onMouseEnter={() => {}} // set opacity to 0.9 or 1
                   onMouseLeave={() => console.log("t")} //set opacity back to 0.7
                 >
@@ -143,7 +143,7 @@ const Map = () => {
   }
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "100%", border: "2px solid blue" }}>
       <Map
         // eslint-disable-next-line
         style={mapStyle}
